@@ -9,5 +9,5 @@ def index():
 
 # overview route
 @app.route('/overview')
-def index():
+def overview():
     return render_template('overview.html')
