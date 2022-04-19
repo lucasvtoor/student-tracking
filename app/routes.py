@@ -1,19 +1,19 @@
-from flask import Flask, render_template
+from flask import render_template
 from app import app
 
+
+# base application route
 @app.route('/')
-@app.route('/index')
 def index():
-    user = {'username': 'Dasraf'}
-    return '''
-<html>
-    <head>
-        <title>User Page</title>
-    </head>
-    <body>
-        <h1>Hello, ''' + user['username'] + '''!</h1>
-    </body>
-</html>'''
-@app.route('/users')
-def users():
-    return render_template('users.html')
+    return render_template('index.html')
+
+# overview route
+@app.route('/overview')
+def overview():
+    return render_template('overview.html')
+
+# help route
+@app.route('/help')
+def helppage():
+    return render_template('helppage.html')
+

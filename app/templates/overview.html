@@ -1,0 +1,135 @@
+{% extends "base.html" %} {%block content%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static',filename='css/overview.css') }}"
+    />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <title>Dashboard Overview</title>
+  </head>
+  <body>
+    <div class="container">
+
+    <div class="row header top">
+      <div class="header">
+        <h3>Overview</h3>
+        <div id="currentUser"><img src="{{ url_for('static',filename='img/usericon.png') }}" alt=""><h5>Hakan Akkas</h5></div>
+        
+      </div>
+    </div>
+    <div class="row cards-row">
+      <div class="col">
+        <div class="card text-center cards-counter">
+          <div class="card-body">
+            <h5 class="card-title">Users</h5>
+            <h2>150</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card text-center cards-counter">
+          <div class="card-body">
+            <h5 class="card-title">Number of questions</h5>
+            <h2>125</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card text-center cards-counter">
+          <div class="card-body">
+            <h5 class="card-title">Average answered</h5>
+            <h2>43</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card text-center cards-counter">
+          <div class="card-body">
+            <h5 class="card-title">Users below average</h5>
+            <h2>5</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row graph-row">
+      <div class="col"> <h5>Amount of questions answerd per class</h5>
+      <div id="d3-container">
+       
+      </div>
+    
+    </div>
+    </div>
+    <div class="row exc-row">
+      <div class="header">
+        <h3>Excersices</h3>
+        <h3>search bar placeholder</h3>
+      </div>
+
+      <div class="col">
+        <table class="table">
+          <thead>
+            <tr class="head-col">
+              <th scope="col">Assignment</th>
+              <th class="col-top" scope="col">Not started</th>
+              <th class="col-top" scope="col">Working on it</th>
+              <th class="col-top" scope="col">Done</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">
+                <div class="excersize-info"> <div class="img-container"><img src="{{ url_for('static',filename='img/user-interaction.png') }}" alt=""></div> 
+                <div class="text-container"><h4>User Interaction</h4> <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div></div>
+              </th>
+
+              <td>37</td>
+              <td>11</td>
+              <td>17</td>
+            </tr>
+            <tr>
+              <th scope="row">
+                <div class="excersize-info"> <div class="img-container"><img src="{{ url_for('static',filename='img/programming1.png') }}" alt=""></div> 
+                <div class="text-container"><h4>Programming 1</h4> <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div></div>
+              </th>
+
+              <td>8</td>
+              <td>31</td>
+              <td>20</td>
+            </tr>
+            <tr>
+              <th scope="row">
+                <div class="excersize-info"> <div class="img-container"><img src="{{ url_for('static',filename='img/programming2.png') }}" alt=""></div> 
+                <div class="text-container"><h4>Programming 2</h4> <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div></div>
+              </th>
+
+              <td>21</td>
+              <td>4</td>
+              <td>14</td>
+            </tr>
+            <tr>
+              <th scope="row">
+                <div class="excersize-info"> <div class="img-container"><img src="{{ url_for('static',filename='img/html-css.png') }}" alt=""></div> 
+                <div class="text-container"><h4>HTML/CSS</h4> <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div></div>
+              </th>
+
+              <td>24</td>
+              <td>6</td>
+              <td>15</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script src="{{ url_for('static',filename='js/overview.js') }}"></script>
+  </body>
+</html>
+{%endblock%}
