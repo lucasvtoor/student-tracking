@@ -1,0 +1,127 @@
+{% extends "base.html" %} {%block content%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/user.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/overview.css') }}" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <title>Dashboard Overview</title>
+</head>
+
+<body>
+  <div class="container mt-5 px-2">
+    <div class="row header top">
+      <div class="header">
+        <h3>Overview</h3>
+        <div id="currentUser"><img src="/static/img/usericon.png" alt=""><h5>Hakan Akkas</h5></div>
+        
+      </div>
+    </div>
+    <div class="mb-2 d-flex justify-content-between align-items-center">
+      <div class= "row justify-content-center"> 
+        <div class="px-2 col"> <button type="button" class="btn btn-light">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+<path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"></path>
+</svg>
+          Filter
+        </button></div>
+        <div class="position-relative col"> <span class="position-absolute search"><i class="fa fa-search"></i></span> <input class="form-control w-100" placeholder="Zoek door Naam, Datum, Email"> </div>
+
+      </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-responsive table-borderless user-table">
+            <thead class="column-top">
+                <tr>
+                    <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th>
+                    <th scope="col" width="5%" style="color: white;">Naam</th>
+                    <th scope="col" width="20%" style="color: white;">User Status</th>
+                    <th scope="col" width="70%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><input class="form-check-input" type="checkbox"></th>
+                    <td>Mike Schilder
+                      mike.schilder@hva.nl
+                    </td>
+                    </td>
+                    <td>
+                      <div class="user-status">
+                        <div class="top"> <span class="badge bg-secondary">Inactive</span> </div>
+                        <div class="bottom"><i class="fa fa-check-circle-o green"></i><span class="ms-1">Last login: 14/april/2022</span></td></div>
+                      </div>
+                      
+                    <td><div class="progress">
+                      <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"> Programming 1:</div>
+                    </div></td>
+                </tr>
+                <tr>
+                  <th scope="row"><input class="form-check-input" type="checkbox"></th>
+                  <td>Hooshang Kooshani
+                    hooshang.kooshani@hva.nl
+                  </td>
+                  </td>
+                  <td>
+                    <div class="user-status">
+                      <div class="top"> <span class="badge bg-primary">Active</span> </div>
+                      <div class="bottom"><i class="fa fa-check-circle-o green"></i><span class="ms-1">Last login: 14/april/2022</span></td></div>
+                    </div>
+                    
+                  <td><div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"> Programming 1:</div>
+                  </div></td>
+              </tr>
+                <tr>
+                    <th scope="row"><input class="form-check-input" type="checkbox"></th>
+                    <td>Farzad Mobasher
+                      farzad.mobasher@hva.nl
+                    </td>
+                    <td>
+                      <div class="user-status">
+                        <div class="top"> <span class="badge bg-secondary">Inactive</span> </div>
+                        <div class="bottom"><i class="fa fa-check-circle-o green"></i><span class="ms-1">Last login: 14/april/2022</span></td></div>
+                      </div>
+                    <td><div class="progress">
+                      <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"> Programming 1:</div>
+                    </div></td>
+                </tr>
+                <tr>
+                    <th scope="row"><input class="form-check-input" type="checkbox"></th>
+                    <td>Ayoub Barkani
+                      ayoub.barkani@hva.nl
+                    </td>
+                    <td>
+                      <div class="user-status">
+                        <div class="top"> <span class="badge bg-secondary">Inactive</span> </div>
+                        <div class="bottom"><i class="fa fa-check-circle-o green"></i><span class="ms-1">Last login: 14/april/2022</span></td></div>
+                      </div>
+                    <td><div class="progress">
+                      <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> Programming 1:</div>
+                    </div></td>
+                </tr>
+                <tr>
+                    <th scope="row"><input class="form-check-input" type="checkbox"></th>
+                    <td> Po Man <br> po.man@hva.nl
+                    </td>
+                    <td>
+                      <div class="user-status">
+                        <div class="top"> <span class="badge bg-primary">Active</span> </div>
+                        <div class="bottom"><i class="fa fa-check-circle-o green"></i><span class="ms-1">Last login: 14/april/2022</span></td></div>
+                      </div>
+                    <td><div class="progress">
+                      <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"> Programming 1</div>
+                    </div></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+
+</html>
+{%endblock%}

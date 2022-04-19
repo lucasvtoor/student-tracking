@@ -18,6 +18,11 @@ def overview():
 @app.route('/helppage')
 def helppage():
     return render_template('helppage.html', protected=False)
+# user route
+@app.route('/user')
+def user():
+    return render_template('users.html', protected=False)
+
 
 
 
