@@ -9,7 +9,8 @@
       rel="stylesheet"
       href="{{ url_for('static',filename='css/overview.css') }}"
     />
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Dashboard Overview</title>
   </head>
   <body>
@@ -58,16 +59,19 @@
     </div>
     <div class="row graph-row">
       <div class="col"> <h5>Amount of questions answerd per class</h5>
-      <div id="d3-container">
-       
-      </div>
+        <div>
+          <canvas id="myChart" width="380" height="340"></canvas>
+        </div>
     
     </div>
     </div>
     <div class="row exc-row">
       <div class="header">
-        <h3>Excersices</h3>
-        <h3>search bar placeholder</h3>
+        <div>        <h3>Excersices</h3></div>
+
+        <div class="searchbar-div">
+          <input type="text" class="col-md-2 searchbar" placeholder="Search">
+        </div>
       </div>
 
       <div class="col">
@@ -130,6 +134,9 @@
       </div>
     </div>
     <script src="{{ url_for('static',filename='js/overview.js') }}"></script>
+
+
+
   </body>
 </html>
 {%endblock%}
