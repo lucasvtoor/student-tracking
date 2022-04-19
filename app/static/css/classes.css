@@ -1,0 +1,42 @@
+.headcolor {
+  background-color: rgba(54, 55, 64, 1);
+  color: white;
+}
+
+.numberalignment {
+  margin-left: 48%;
+}
+
+#bottomRow {
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  background: rgba(54, 55, 64, 1);
+  transform: translate(0%, 0%);
+}
+
+#currentUser {
+  display: flex;
+  flex-direction: row;
+}
+
+#currentUser h5 {
+  margin: auto;
+}
+
+#currentUser img {
+  width: 80px;
+  height: 50px;
+  border-radius: 10px;
+}
+.top {
+  background-color: #f7f8fc;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+#graphSpacing {
+  margin-top: 10%;
+}
