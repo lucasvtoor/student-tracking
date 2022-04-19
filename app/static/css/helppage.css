@@ -1,0 +1,38 @@
+body {
+    background-color: #f7f8fc;
+}
+  
+.container {
+    background-color: #f7f8fc;
+    /* background-color: green; */
+  
+    /* border: 1px solid red; */
+} 
+.row {
+    margin-top: 30px;
+    border-radius: 10px;
+}
+.card {
+    background-color: white;
+    align-items: center;
+    align-content: space-around;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-top: 5;
+}
+#currentUser img {
+    width: 80px;
+    height: 50px;
+    border-radius: 10px;
+  }
+  #currentUser {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  #currentUser h5 {
+    margin: auto;
+  }
