@@ -3,20 +3,23 @@ from app import app
 
 
 # base application route
+@app.route('/login')
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('login.html', protected=True)
 
 # overview route
 @app.route('/overview')
 def overview():
-    return render_template('overview.html')
+    return render_template('overview.html', protected=False)
 
 
 # helppage route
 @app.route('/helppage')
 def helppage():
-    return render_template('helppage.html')
+    return render_template('helppage.html', protected=False)
+
+
 
     
 
@@ -58,4 +61,4 @@ def classes():
     today = [row[1] for row in data]
     total = [row[2] for row in data]
 
-    return render_template('classes.html', classes = classes, labels = labels, today = today, total = total)    
+    return render_template('classes.html', classes = classes, labels = labels, today = today, total = total , protected=False)    

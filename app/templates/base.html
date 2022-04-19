@@ -20,18 +20,16 @@
 
   <body>
     <div class="top-container d-flex">
-      {% block navbar %}
+      {% if protected == False %} {% block navbar %}
       <div
         class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
         style="width: 280px"
       >
         <a
-          href="/"
+          href="{{ url_for('overview') }}"
           class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
         >
-          <svg class="bi me-2" width="40" height="32">
-            <use xlink:href="#bootstrap" />
-          </svg>
+          <svg class="bi me-2" width="40" height="32"></svg>
           <span class="fs-4">Dashboard Metis</span>
         </a>
         <hr />
@@ -65,14 +63,14 @@
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link text-white">
+            <a href="{{ url_for('index') }}" class="nav-link text-white">
               <svg class="bi me-2" width="16" height="16"></svg>
-              Settings
+              Logout
             </a>
           </li>
         </ul>
       </div>
-      {% endblock %} {% block content %}{% endblock %}
+      {% endblock %} {% endif %} {% block content %}{% endblock %}
     </div>
     <!-- Bootstrap Bundle with Popper -->
     <script

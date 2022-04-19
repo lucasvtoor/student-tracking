@@ -1,20 +1,25 @@
-  .profile-image-pic{
-    height: 150px;
-    width: 150px;
-    object-fit: cover;
-  }
-  
-  
-  .cardbody-color{
-    background-color: #fff;
-  }
-  
+body,
+html {
+  background-color: #f7f8fc;
+  min-height: 100vh;
+  background-color: #363740;
+}
 
-  body{
-      background-color: #363740;
-  }
+.top-container {
+  min-height: 100vh;
+}
 
-  .card my-3 {
-    margin-top: 10rem!important;
-    margin-bottom: 1rem!important;
+.profile-image-pic {
+  height: 150px;
+  width: 150px;
+  object-fit: cover;
+}
+
+.cardbody-color {
+  background-color: #fff;
+}
+
+.card my-3 {
+  margin-top: 10rem !important;
+  margin-bottom: 1rem !important;
 }
