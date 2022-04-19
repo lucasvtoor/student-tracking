@@ -3,12 +3,16 @@
   color: white;
 }
 
-.buttonalignment {
-  margin-left: 34%;
+.numberalignment {
+  margin-left: 48%;
 }
 
-.numberalignment {
-  margin-left: 25%;
+#bottomRow {
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  background: rgba(54, 55, 64, 1);
+  transform: translate(0%, 0%);
 }
 
 #currentUser {
@@ -32,4 +36,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+}
+#graphSpacing {
+  margin-top: 10%;
 }

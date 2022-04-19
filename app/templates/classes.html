@@ -8,53 +8,124 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Overview</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
 </head>
 
-<body>
-    <div class="container">
-        <div class="row header top">
+<body class="top">
+    <div class="container top">
+        <div class="row header top mt-2">
             <div class="header">
-                <h3>Overview</h3>
+                <h3>Classes</h3>
                 <div id="currentUser"><img src="{{ url_for('static',filename='img/usericon.png') }}" alt="">
                     <h5>Hakan Akkas</h5>
                 </div>
             </div>
         </div>
+
+
         <div class="row d-flex justify-content-center mt-5">
             <div class="card">
-                <div class="card-header headcolor d-flex">
-                    <div class="col-3">
-                        <h3>Classes</h3>
-                    </div>
-                    <div class="col-4">
-                        <div class="input-group">
+
+                <div class="row headcolor">
+                    <div class="col flex">
+                        <div class="input-group m-3 w-75">
                             <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                                 aria-describedby="search-addon" />
-                            <button type="button" class="btn btn-outline-primary">search</button>
+                            <button type="button" class="btn btn-primary">search</button>
                         </div>
                     </div>
-                    <div class="col-3 buttonalignment">
-                        <button class="btn btn-primary">Download</button>
+                    <div class="col d-flex">
+                        <button class="btn btn-primary ms-auto m-3">Download</button>
                     </div>
                 </div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        {% for class in classes %}
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-                            {{class.name}}
-                            <span class="badge bg-primary rounded-pill numberalignment">{{class.members}}</span>
-                        </li>
-                        {% endfor %}
-                    </ul>
+
+                <div class="row">
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col">
+                                        <h6>Class name</h6>
+                                    </div>
+                                    <div class="col">
+                                        <h6>Number of users</h6>
+                                    </div>
+                                </div>
+                            </li>
+                            {% for class in classes %}
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                {{class.name}}
+                                <span class="badge bg-primary rounded-pill numberalignment">{{class.members}}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
-                <div class="card-footer headcolor"></div>
+                <div class="row">
+                    <div class="rounded-bottom" id="bottomRow"></div>
+                </div>
             </div>
 
         </div>
-        <div class="row">
-            <div class="col-6"></div>
-            <div class="col-6"></div>
+        <div class="row" id="graphSpacing">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <canvas id="dailyBarChart" width="400" height="300"></canvas>
+                        <script>
+                            const setupDailyChart = document.getElementById('dailyBarChart').getContext('2d');
+                            const dailyChart = new Chart(setupDailyChart, {
+                                type: 'bar',
+                                data: {
+                                    labels: {{ labels | safe }},
+                            datasets: [
+                                {
+                                    label: 'Number of questions answered',
+                                    data: {{ today | safe}},
+                                backgroundColor: 'rgba(50, 144, 237, 1)'
+                                }
+                            ]
+                                },
+                            options: {
+                                responsive: false,
+                            }
+                            });
+                        </script>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+
+                        <canvas id="totalBarChart" width="400" height="300"></canvas>
+                        <script>
+                            const setupTotalChart = document.getElementById('totalBarChart').getContext('2d');
+                            const totalChart = new Chart(setupTotalChart, {
+                                type: 'bar',
+                                data: {
+                                    labels: {{ labels | safe }},
+                            datasets: [
+                                {
+                                    label: 'Number of questions answered',
+                                    data: {{ total | safe}},
+                                backgroundColor: 'rgba(50, 144, 237, 1)'
+                                }
+                            ]
+                                },
+                            options: {
+                                responsive: false
+                            }
+                            });
+                        </script>
+
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

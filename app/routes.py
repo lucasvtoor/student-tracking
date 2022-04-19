@@ -37,4 +37,17 @@ def classes():
             'members':'5'
         },
     ]
-    return render_template('classes.html', classes = classes)    
+
+    data = [
+        ("Klas 1A", 15, 45),
+        ("Klas 2A", 10, 43),
+        ("Klas 3A", 12, 36),
+        ("Klas 4A", 7, 40),
+        ("Klas 5A", 19, 65),
+    ]
+
+    labels = [row[0] for row in data]
+    today = [row[1] for row in data]
+    total = [row[2] for row in data]
+
+    return render_template('classes.html', classes = classes, labels = labels, today = today, total = total)    
