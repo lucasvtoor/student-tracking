@@ -1,0 +1,20 @@
+  .profile-image-pic{
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+  }
+  
+  
+  .cardbody-color{
+    background-color: #fff;
+  }
+  
+
+  body{
+      background-color: #363740;
+  }
+
+  .card my-3 {
+    margin-top: 10rem!important;
+    margin-bottom: 1rem!important;
+}

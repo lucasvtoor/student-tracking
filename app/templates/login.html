@@ -1,0 +1,49 @@
+{% extends "base.html" %} {%block content%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static',filename='css/login.css') }}"
+    />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+          <div class="col-md-4 offset-md-4 mt-5"> 
+            <div class="card my-3 mt-5">
+    
+              <form class="card-body cardbody-color p-lg-5">
+    
+                <div class="text-center">
+                  <img src="{{ url_for('static',filename='img/metisLogo.png') }}" class="img-fluid profile-image-pic img-thumbnail rounded-circle mb-4">
+                </div>
+
+                <div class="text-center mb-4 mt-1 text-black-50">Login Dashboard</div>
+    
+                <div class="mb-3">
+                <div class="text-start mb-1 mt-1 text-black-50">Gebruikersnaam</div>
+                  <input type="text" class="form-control" id="gebruikersnaam"
+                    placeholder="Gebruikersnaam">
+                </div>
+                <div class="mb-3">
+                <div class="text-start mb-1 mt-1 text-black-50">Wachtwoord</div>
+                  <input type="password" class="form-control" id="wachtwoord" placeholder="Wachtwoord">
+                </div>
+                <div class="d-grid gap-2 w-100">
+                    <a class="btn btn-primary" id="loginButtonSubmit" href="{{ url_for('overview') }}">Login</a>
+                </div>
+              </form>
+            </div>
+    
+          </div>
+        </div>
+      </div>
+  </body>
+</html>
+{%endblock%}
