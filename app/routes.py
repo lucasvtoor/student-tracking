@@ -11,3 +11,7 @@ def index():
 @app.route('/overview')
 def overview():
     return render_template('overview.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
