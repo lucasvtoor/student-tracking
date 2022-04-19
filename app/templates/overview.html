@@ -15,10 +15,11 @@
   <body>
     <div class="container">
 
-    <div class="row header">
+    <div class="row header top">
       <div class="header">
         <h3>Overview</h3>
-        <h3>Hakan Akkas</h3>
+        <div id="currentUser"><img src="{{ url_for('static',filename='img/usericon.png') }}" alt=""><h5>Hakan Akkas</h5></div>
+        
       </div>
     </div>
     <div class="row cards-row">
@@ -65,14 +66,14 @@
     </div>
     <div class="row exc-row">
       <div class="header">
-        <h3>Excersizes</h3>
+        <h3>Excersices</h3>
         <h3>search bar placeholder</h3>
       </div>
 
       <div class="col">
         <table class="table">
           <thead>
-            <tr>
+            <tr class="head-col">
               <th scope="col">Assignment</th>
               <th class="col-top" scope="col">Not started</th>
               <th class="col-top" scope="col">Working on it</th>
@@ -82,7 +83,7 @@
           <tbody>
             <tr>
               <th scope="row">
-                <div class="excersize-info"> <div class="img-container"><img src="{{ url_for('static',filename='img/img-placeholder.jpeg') }}" alt=""></div> 
+                <div class="excersize-info"> <div class="img-container"><img src="{{ url_for('static',filename='img/user-interaction.png') }}" alt=""></div> 
                 <div class="text-container"><h4>User Interaction</h4> <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                 </div></div>
               </th>
@@ -93,7 +94,7 @@
             </tr>
             <tr>
               <th scope="row">
-                <div class="excersize-info"> <div class="img-container"><img src="{{ url_for('static',filename='img/img-placeholder.jpeg') }}" alt=""></div> 
+                <div class="excersize-info"> <div class="img-container"><img src="{{ url_for('static',filename='img/programming1.png') }}" alt=""></div> 
                 <div class="text-container"><h4>Programming 1</h4> <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                 </div></div>
               </th>
@@ -104,7 +105,7 @@
             </tr>
             <tr>
               <th scope="row">
-                <div class="excersize-info"> <div class="img-container"><img src="{{ url_for('static',filename='img/img-placeholder.jpeg') }}" alt=""></div> 
+                <div class="excersize-info"> <div class="img-container"><img src="{{ url_for('static',filename='img/programming2.png') }}" alt=""></div> 
                 <div class="text-container"><h4>Programming 2</h4> <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                 </div></div>
               </th>
@@ -115,7 +116,7 @@
             </tr>
             <tr>
               <th scope="row">
-                <div class="excersize-info"> <div class="img-container"><img src="{{ url_for('static',filename='img/img-placeholder.jpeg') }}" alt=""></div> 
+                <div class="excersize-info"> <div class="img-container"><img src="{{ url_for('static',filename='img/html-css.png') }}" alt=""></div> 
                 <div class="text-container"><h4>HTML/CSS</h4> <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                 </div></div>
               </th>

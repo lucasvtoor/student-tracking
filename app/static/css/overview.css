@@ -1,8 +1,27 @@
-.container {
-  /* background-color: #f7f8fc; */
-  background-color: green;
+body {
+  background-color: #f7f8fc;
+}
 
-  border: 1px solid red;
+.container {
+  background-color: #f7f8fc;
+  /* background-color: green; */
+
+  /* border: 1px solid red; */
+}
+
+#currentUser {
+  display: flex;
+  flex-direction: row;
+}
+
+#currentUser h5 {
+  margin: auto;
+}
+
+#currentUser img {
+  width: 80px;
+  height: 50px;
+  border-radius: 10px;
 }
 
 .card h5 {
@@ -11,27 +30,34 @@
 
 .row {
   margin-top: 30px;
-
   background-color: white;
   border-radius: 10px;
 }
 
+.top {
+  background-color: #f7f8fc;
+}
+
 .cards-row {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   align-items: center;
-  background-color: green;
-  /* background-color: #f7f8fc; */
+  /* background-color: green; */
+  background-color: #f7f8fc;
 }
 
 .graph-row {
   height: 400px;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 .exc-row {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   padding: 15px;
   align-items: center;
+}
+
+.head-col {
+  color: #9fa2b4;
 }
 
 .exc-row td {
@@ -57,6 +83,10 @@
 }
 .text-container {
   margin-left: 15px;
+}
+
+.text-container p {
+  color: #9fa2b4;
 }
 
 .page-header-row {
