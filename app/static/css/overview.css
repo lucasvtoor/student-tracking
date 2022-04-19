@@ -1,5 +1,11 @@
-body {
+body,
+html {
   background-color: #f7f8fc;
+  min-height: 100vh;
+}
+
+.top-container {
+  min-height: 100vh;
 }
 
 .container {
