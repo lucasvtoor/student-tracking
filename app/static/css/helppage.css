@@ -14,11 +14,14 @@ body {
 }
 .card {
     background-color: white;
+    align-items: center;
+    align-content: space-around;
 }
 .header {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    margin-top: 5;
 }
 #currentUser img {
     width: 80px;
