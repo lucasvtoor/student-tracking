@@ -12,8 +12,9 @@ def index():
 def overview():
     return render_template('overview.html')
 
-# help route
-@app.route('/help')
-def helppage():
-    return render_template('helppage.html')
+# user route
+@app.route('/user')
+def user():
+    return render_template('users.html')
+
 
