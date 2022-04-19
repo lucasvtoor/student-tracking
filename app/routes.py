@@ -12,6 +12,14 @@ def index():
 def overview():
     return render_template('overview.html')
 
+
+# helppage route
+@app.route('/helppage')
+def helppage():
+    return render_template('helppage.html')
+
+    
+
 # classes route
 @app.route('/classes')
 def classes():
