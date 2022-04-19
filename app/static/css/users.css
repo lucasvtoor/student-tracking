@@ -1,7 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
 
-body {
-  font-family: "Open Sans", sans-serif;
+body,
+html {
+  background-color: #f7f8fc;
+  min-height: 100vh;
+}
+
+.top-container {
+  min-height: 100vh;
 }
 
 .search {
@@ -41,4 +47,25 @@ input[placeholder] {
 }
 input {
   color: black;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+#currentUser {
+  display: flex;
+  flex-direction: row;
+}
+
+#currentUser h5 {
+  margin: auto;
+}
+
+#currentUser img {
+  width: 80px;
+  height: 50px;
+  border-radius: 10px;
 }

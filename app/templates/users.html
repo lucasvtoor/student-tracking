@@ -1,22 +1,17 @@
-{% extends "base.html" %} {%block content%}
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %} {% block head%}
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="{{ url_for('static',filename='css/user.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static',filename='css/overview.css') }}" />
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <title>Dashboard Overview</title>
-</head>
+<link rel="stylesheet" href="{{ url_for('static',filename='css/users.css') }}" />
 
-<body>
+{% endblock %} {%block content%}
+
+
+
+
+
   <div class="container mt-5 px-2">
     <div class="row header top">
       <div class="header">
-        <h3>Overview</h3>
+        <h3>Users</h3>
         <div id="currentUser"><img src="/static/img/usericon.png" alt=""><h5>Hakan Akkas</h5></div>
         
       </div>
@@ -29,7 +24,7 @@
 </svg>
           Filter
         </button></div>
-        <div class="position-relative col"> <span class="position-absolute search"><i class="fa fa-search"></i></span> <input class="form-control w-100" placeholder="Zoek door Naam, Datum, Email"> </div>
+        <div class="position-relative col"> <span class="position-absolute search"><i class="fa fa-search"></i></span> <input class="form-control w-100" placeholder="Search by name, date or e-mail"> </div>
 
       </div>
     </div>
@@ -38,7 +33,7 @@
             <thead class="column-top">
                 <tr>
                     <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th>
-                    <th scope="col" width="5%" style="color: white;">Naam</th>
+                    <th scope="col" width="5%" style="color: white;">Name</th>
                     <th scope="col" width="20%" style="color: white;">User Status</th>
                     <th scope="col" width="70%"></th>
                 </tr>
@@ -121,7 +116,5 @@
         </table>
     </div>
 </div>
-</body>
 
-</html>
 {%endblock%}
