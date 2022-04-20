@@ -1,8 +1,11 @@
+import json
 import math
 import random
 import string
 
+import pandas as pd
 import requests
+from app.static.py.query_cleaner import json_to_dataframe
 
 USERNAME = ""
 PASSWORD = ""
@@ -26,7 +29,6 @@ def login(username, password):
     return result["data"]["passwordAuthorize"]
 
 
-token = {"a": login(USERNAME, PASSWORD)["token"]}
 
 
 def get_project_amount():
@@ -61,8 +63,6 @@ def get_user_amount():
     return request.json()["data"]["organisations"]["list"][0]["users"]["total"]
 
 
-
-
 def create_alias():
     letters = string.ascii_lowercase
     result_str = ''.join(random.choice(letters) for i in range(8))
@@ -78,7 +78,7 @@ def create_alias():
 def not_proud_of_this(user_offset, project_offset):
     alias = create_alias()
     return ("""
-    %s :organisations(q: "Metis Montessori Lyceum - Coderclass", limit: 20) {
+     %s :organisations(q: "Metis Montessori Lyceum - Coderclass", limit: 20) {
     list {
       projects(limit: 20, offset: %s) {
         list {
@@ -86,6 +86,13 @@ def not_proud_of_this(user_offset, project_offset):
           users(q: "*", limit: 100 offset:%s) {
             list {
               name
+              email
+              picture
+              stats{
+                badges
+                quests
+                certificates
+              }
               badgesStatuses {
                 list {
                   status
@@ -105,7 +112,7 @@ def not_proud_of_this(user_offset, project_offset):
     """ % (alias, project_offset, user_offset), alias)
 
 
-def fetch():
+def fetch(token):
     project_loop = math.ceil(get_project_amount() / QUERY_LIMIT)  # -1 because offset starts at 0
     user_loop = math.ceil(get_user_amount() / QUERY_LIMIT)  # -1 because offset starts at 0
     aliases = []
@@ -120,7 +127,14 @@ def fetch():
 
     query += "}"
     request = requests.post(url, json={"query": query}, cookies=token)
-    return (request.json(), aliases)
+    print(request)
+    tim = request.json()
+    del tim["errors"]
+    df = pd.DataFrame()
+    for alias in aliases:
+        new_df = json_to_dataframe(tim["data"][alias])
+        df = pd.concat([df, new_df])
+    print(df)
+    return df
 
 
-print(fetch()[0])
