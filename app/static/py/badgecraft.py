@@ -31,7 +31,7 @@ def login(username, password):
 
 
 
-def get_project_amount():
+def get_project_amount(token):
     query = """
   query {
     organisations (q:"Metis Montessori Lyceum - Coderclass"){
@@ -47,7 +47,7 @@ def get_project_amount():
     return request.json()["data"]["organisations"]["list"][0]["projects"]["total"]
 
 
-def get_user_amount():
+def get_user_amount(token):
     query = """
   query {
   organisations (q:"Metis Montessori Lyceum - Coderclass"){
@@ -113,8 +113,8 @@ def not_proud_of_this(user_offset, project_offset):
 
 
 def fetch(token):
-    project_loop = math.ceil(get_project_amount() / QUERY_LIMIT)  # -1 because offset starts at 0
-    user_loop = math.ceil(get_user_amount() / QUERY_LIMIT)  # -1 because offset starts at 0
+    project_loop = math.ceil(get_project_amount(token) / QUERY_LIMIT)  # -1 because offset starts at 0
+    user_loop = math.ceil(get_user_amount(token) / QUERY_LIMIT)  # -1 because offset starts at 0
     aliases = []
     query = "{"
     for i in range(project_loop):
@@ -127,14 +127,12 @@ def fetch(token):
 
     query += "}"
     request = requests.post(url, json={"query": query}, cookies=token)
-    print(request)
     tim = request.json()
     del tim["errors"]
     df = pd.DataFrame()
     for alias in aliases:
         new_df = json_to_dataframe(tim["data"][alias])
         df = pd.concat([df, new_df])
-    print(df)
     return df
 
 
