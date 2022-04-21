@@ -25,7 +25,39 @@ def helppage():
 # user route
 @app.route('/users')
 def users():
-    return render_template('users.html', protected=False)
+    users = [
+        {
+            'name': 'Mike Schilder',
+            'mail':'mike.schilder@hva.nl',
+            'lastLogin':'14-4-2022'
+
+        },
+        {
+            'name': 'Hooshang Kooshani',
+            'mail':'hooshang.kooshani@hva.nl',
+            'lastLogin':'14-4-2022'
+
+        },
+        {
+            'name': 'Farzad Mobasher',
+            'mail':'farzad.mobasher@hva.nl',
+            'lastLogin':'14-4-2022'
+
+        },
+        {
+            'name': 'Ayoub Barkani',
+            'mail':'ayoub.barkani@hva.nl',
+            'lastLogin':'14-4-2022'
+
+        },
+        {
+            'name': 'Po Man',
+            'mail':'po.man@hva.nl',
+            'lastLogin':'14-4-2022'
+
+        }
+        ]
+    return render_template('users.html', users = users, protected=False)
 
 
 # classes route
