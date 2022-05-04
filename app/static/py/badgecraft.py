@@ -1,4 +1,3 @@
-import json
 import math
 import random
 import string
@@ -29,8 +28,6 @@ def login(username, password):
     return result["data"]["passwordAuthorize"]
 
 
-
-
 def get_project_amount(token):
     query = """
   query {
@@ -43,6 +40,7 @@ def get_project_amount(token):
     }
   }
 """
+    print(token)
     request = requests.post(url, json={"query": query}, cookies=token)
     return request.json()["data"]["organisations"]["list"][0]["projects"]["total"]
 
@@ -113,6 +111,7 @@ def not_proud_of_this(user_offset, project_offset):
 
 
 def fetch(token):
+    token = {"a": token}
     project_loop = math.ceil(get_project_amount(token) / QUERY_LIMIT)  # -1 because offset starts at 0
     user_loop = math.ceil(get_user_amount(token) / QUERY_LIMIT)  # -1 because offset starts at 0
     aliases = []
@@ -134,5 +133,3 @@ def fetch(token):
         new_df = json_to_dataframe(tim["data"][alias])
         df = pd.concat([df, new_df])
     return df
-
-

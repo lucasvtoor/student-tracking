@@ -1,4 +1,4 @@
-from flask import render_template, request, make_response
+from flask import render_template, request, make_response, redirect, url_for
 from app import app
 from app.static.py.badgecraft import fetch, login
 
@@ -25,39 +25,7 @@ def helppage():
 # user route
 @app.route('/users')
 def users():
-    users = [
-        {
-            'name': 'Mike Schilder',
-            'mail':'mike.schilder@hva.nl',
-            'lastLogin':'14-4-2022'
-
-        },
-        {
-            'name': 'Hooshang Kooshani',
-            'mail':'hooshang.kooshani@hva.nl',
-            'lastLogin':'14-4-2022'
-
-        },
-        {
-            'name': 'Farzad Mobasher',
-            'mail':'farzad.mobasher@hva.nl',
-            'lastLogin':'14-4-2022'
-
-        },
-        {
-            'name': 'Ayoub Barkani',
-            'mail':'ayoub.barkani@hva.nl',
-            'lastLogin':'14-4-2022'
-
-        },
-        {
-            'name': 'Po Man',
-            'mail':'po.man@hva.nl',
-            'lastLogin':'14-4-2022'
-
-        }
-        ]
-    return render_template('users.html', users = users, protected=False)
+    return render_template('users.html', protected=False)
 
 
 # classes route
@@ -112,7 +80,11 @@ def account():
         global FETCHED_DATA
         FETCHED_DATA = fetch(user_token)
 
-        resp = make_response(render_template('overview.html'))
+        resp = make_response(
+            redirect(url_for("overview", user_amount=FETCHED_DATA["list.projects.list.users.list.name"].nunique))
+            # render_template('overview.html', user_amount=FETCHED_DATA["list.projects.list.users.list.name"].nunique)
+            
+            )
         resp.set_cookie('token', user_token)
 
         return resp
