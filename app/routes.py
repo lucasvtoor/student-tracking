@@ -1,6 +1,8 @@
+from crypt import methods
 from flask import render_template, request, make_response, redirect, url_for
 from app import app
-from app.static.py.badgecraft import fetch, login
+from app.static.py.badgecraft import fetch, getId, login, getFetchedData
+
 
 
 # base application route
@@ -75,18 +77,23 @@ def account():
     password = request.form['password']
 
     res = login(username, password)
+    print(res)
     if res["success"]:
-        user_token = res["token"]
-        global FETCHED_DATA
-        FETCHED_DATA = fetch(user_token)
+        token = res["token"]
+        id = getId({"a":token})
+
+        print("FETCHED DATA: ", getFetchedData().info())
 
         resp = make_response(
-            redirect(url_for("overview", user_amount=FETCHED_DATA["list.projects.list.users.list.name"].nunique))
+            redirect(url_for("overview", user_amount=getFetchedData()["list.projects.list.users.list.name"].nunique))
             # render_template('overview.html', user_amount=FETCHED_DATA["list.projects.list.users.list.name"].nunique)
             
             )
-        resp.set_cookie('token', user_token)
+        resp.set_cookie('token', token)
+        resp.set_cookie("userId", id)
 
         return resp
+
     else:
         return """{"response":400}"""
+

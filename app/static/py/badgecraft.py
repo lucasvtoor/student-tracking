@@ -1,7 +1,7 @@
 import math
 import random
 import string
-
+from apscheduler.schedulers.background import BackgroundScheduler
 import pandas as pd
 import requests
 from app.static.py.query_cleaner import json_to_dataframe
@@ -10,9 +10,40 @@ USERNAME = ""
 PASSWORD = ""
 url = 'https://www.badgecraft.eu/api/graphql'
 QUERY_LIMIT = 10
+TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
+FETCHED_DATA = {}
 
 
 # client = GraphqlClient(endpoint=url)
+
+
+
+def getFetchedData():
+  return FETCHED_DATA
+
+
+def setFetchedData(data):
+   global FETCHED_DATA
+  FETCHED_DATA = data
+
+
+def getId(token):
+  query = f"""
+    query{{
+  me{{
+    id
+  }}
+}}
+
+
+  """
+  result = requests.post(url, json={"query": query}, cookies=token).json()
+  print(result)
+  return result["data"]["me"]["id"]
+
+
+
+
 
 def login(username, password):
     query = f"""
@@ -25,6 +56,7 @@ def login(username, password):
         }}
     """
     result = requests.post(url, json={"query": query}).json()
+    TOKEN = result["data"]["passwordAuthorize"]["token"]
     return result["data"]["passwordAuthorize"]
 
 
@@ -132,4 +164,4 @@ def fetch(token):
     for alias in aliases:
         new_df = json_to_dataframe(tim["data"][alias])
         df = pd.concat([df, new_df])
-    return df
+        FETCHED_DATA =  df
