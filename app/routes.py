@@ -4,6 +4,9 @@ from app import app
 from app.static.py.badgecraft import fetch, getId, login, getFetchedData
 
 
+TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
+FETCHED_DATA = fetch(TOKEN)
+
 
 # base application route
 @app.route('/login')
@@ -82,10 +85,10 @@ def account():
         token = res["token"]
         id = getId({"a":token})
 
-        print("FETCHED DATA: ", getFetchedData().info())
+        print("FETCHED DATA: ", FETCHED_DATA.info())
 
         resp = make_response(
-            redirect(url_for("overview", user_amount=getFetchedData()["list.projects.list.users.list.name"].nunique))
+            redirect(url_for("overview", user_amount=FETCHED_DATA["list.projects.list.users.list.name"].nunique))
             # render_template('overview.html', user_amount=FETCHED_DATA["list.projects.list.users.list.name"].nunique)
             
             )

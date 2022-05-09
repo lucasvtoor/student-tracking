@@ -22,11 +22,6 @@ def getFetchedData():
   return FETCHED_DATA
 
 
-def setFetchedData(data):
-   global FETCHED_DATA
-  FETCHED_DATA = data
-
-
 def getId(token):
   query = f"""
     query{{
@@ -40,8 +35,6 @@ def getId(token):
   result = requests.post(url, json={"query": query}, cookies=token).json()
   print(result)
   return result["data"]["me"]["id"]
-
-
 
 
 
@@ -164,4 +157,8 @@ def fetch(token):
     for alias in aliases:
         new_df = json_to_dataframe(tim["data"][alias])
         df = pd.concat([df, new_df])
-        FETCHED_DATA =  df
+        
+      
+    print(df.info())
+    FETCHED_DATA =  df
+
