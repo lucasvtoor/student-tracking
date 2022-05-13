@@ -160,5 +160,6 @@ def fetch(token):
         
       
     print(df.info())
-    FETCHED_DATA =  df
+    FETCHED_DATA = df
+    return FETCHED_DATA
 

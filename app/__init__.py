@@ -14,6 +14,8 @@ scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 
 app = Flask(__name__)
-fetch(TOKEN)
+fetchData = fetch(TOKEN)
+
+# print("fetchedData from init: " , fetchData)
 
 from . import routes

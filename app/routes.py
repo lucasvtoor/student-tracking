@@ -1,11 +1,11 @@
 from crypt import methods
 from flask import render_template, request, make_response, redirect, url_for
-from app import app
+from app import app, fetchData
 from app.static.py.badgecraft import fetch, getId, login, getFetchedData
 
 
-TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
-FETCHED_DATA = fetch(TOKEN)
+# TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
+# FETCHED_DATA = fetch(TOKEN)
 
 
 # base application route
@@ -18,7 +18,16 @@ def index():
 # overview route
 @app.route('/overview')
 def overview():
-    return render_template('overview.html', protected=False)
+    
+
+    userAmount = fetchData["list.projects.list.users.list.name"].nunique()
+
+    # numberQuestions
+    # averageAnswered
+    # usersBelowAverage
+
+
+    return render_template('overview.html', protected=False, user_amount = userAmount)
 
 
 # helppage route
@@ -85,13 +94,7 @@ def account():
         token = res["token"]
         id = getId({"a":token})
 
-        print("FETCHED DATA: ", FETCHED_DATA.info())
-
-        resp = make_response(
-            redirect(url_for("overview", user_amount=FETCHED_DATA["list.projects.list.users.list.name"].nunique))
-            # render_template('overview.html', user_amount=FETCHED_DATA["list.projects.list.users.list.name"].nunique)
-            
-            )
+        resp = make_response(redirect(url_for("overview")))
         resp.set_cookie('token', token)
         resp.set_cookie("userId", id)
 
