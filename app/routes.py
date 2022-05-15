@@ -18,16 +18,14 @@ def index():
 # overview route
 @app.route('/overview')
 def overview():
-    
 
-    userAmount = fetchData["list.projects.list.users.list.name"].nunique()
-
-    # numberQuestions
-    # averageAnswered
+    studentCount = fetchData["list.projects.list.users.list.name"].nunique()
+    # numberBadges = fetchData["list.projects.list.name"].nunique()
+    # average_badge_per_student
     # usersBelowAverage
 
 
-    return render_template('overview.html', protected=False, user_amount = userAmount)
+    return render_template('overview.html', protected=False, student_count = studentCount)
 
 
 # helppage route
@@ -93,6 +91,8 @@ def account():
     if res["success"]:
         token = res["token"]
         id = getId({"a":token})
+
+        
 
         resp = make_response(redirect(url_for("overview")))
         resp.set_cookie('token', token)

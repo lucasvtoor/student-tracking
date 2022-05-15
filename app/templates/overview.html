@@ -20,24 +20,24 @@
     <div class="col">
       <div class="card text-center cards-counter">
         <div class="card-body">
-          <h5 class="card-title">Users</h5>
-          <h2>{{ user_amount }}</h2>
+          <h5 class="card-title">Students</h5>
+          <h2>{{ student_count }}</h2>
         </div>
       </div>
     </div>
     <div class="col">
       <div class="card text-center cards-counter">
         <div class="card-body">
-          <h5 class="card-title">Number of questions</h5>
-          <h2>125</h2>
+          <h5 class="card-title">Number of badges</h5>
+          <h2>{{ number_badges }}</h2>
         </div>
       </div>
     </div>
     <div class="col">
       <div class="card text-center cards-counter">
         <div class="card-body">
-          <h5 class="card-title">Average answered</h5>
-          <h2>43</h2>
+          <h5 class="card-title">Average badges per student</h5>
+          <h2>{{ average_badge_per_student }}</h2>
         </div>
       </div>
     </div>
@@ -52,7 +52,7 @@
   </div>
   <div class="row graph-row">
     <div class="col">
-      <h5>Amount of questions answered per class</h5>
+      <h5>Amount of badges earned per class</h5>
       <div>
         <canvas id="myChart" width="380" height="340"></canvas>
       </div>
@@ -60,7 +60,7 @@
   </div>
   <div class="row exc-row">
     <div class="header">
-      <div><h3>Exercise</h3></div>
+      <div><h3>Projects</h3></div>
 
       <div class="searchbar-div">
         <input type="text" class="col-md-2 searchbar" placeholder="Search" />
