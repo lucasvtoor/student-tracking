@@ -17,7 +17,9 @@
   </div>
   <div class="mb-2 d-flex justify-content-between align-items-center">
     <div class="row justify-content-center">
-      <div class="px-2 col"> <button type="button" class="btn btn-light">
+      <div class="px-2 col">
+        <button type="button" class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#collapseFilter"
+          aria-expanded="false" aria-controls="collapseFilter">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter"
             viewBox="0 0 16 16">
             <path
@@ -25,7 +27,44 @@
             </path>
           </svg>
           Filter
-        </button></div>
+        </button>
+        <div class="collapse" id="collapseFilter">
+          <div class="card card-body w-100">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+              <label class="form-check-label" for="inlineCheckbox1">Namen oplopend</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+              <label class="form-check-label" for="inlineCheckbox2">Namen aflopend</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+              <label class="form-check-label" for="inlineCheckbox3">Badges oplopend</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4">
+              <label class="form-check-label" for="inlineCheckbox4">Badges aflopend</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5">
+              <label class="form-check-label" for="inlineCheckbox5">Quests oplopend</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="option6">
+              <label class="form-check-label" for="inlineCheckbox6">Quests aflopend</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="option7">
+              <label class="form-check-label" for="inlineCheckbox7">Certificates oplopend</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox8" value="option8">
+              <label class="form-check-label" for="inlineCheckbox8">Certificates aflopend</label>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="position-relative col"> <span class="position-absolute search"><i class="fa fa-search"></i></span>
         <input class="form-control w-100" placeholder="Search by name, date or e-mail">
       </div>
