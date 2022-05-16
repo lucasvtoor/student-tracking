@@ -1,4 +1,4 @@
-from crypt import methods
+
 from flask import render_template, request, make_response, redirect, url_for
 from app import app, fetchData
 from app.static.py.badgecraft import fetch, getId, login, getFetchedData
@@ -34,10 +34,53 @@ def helppage():
     return render_template('helppage.html', protected=False)
 
 
-# user route
+# users route
 @app.route('/users')
 def users():
-    return render_template('users.html', protected=False)
+    students = [
+        {
+            'name': 'Mike Schilder',
+            'email': 'mike.schilder@hva.nl',
+            'logIn': '14/april/2022',
+            'badges': '5',
+            'quests': '5',
+            'certificates': '5'
+        },
+        {
+            'name': 'Hooshang Kooshani',
+            'email': 'hooshang.kooshani@hva.nl',
+            'logIn': '14/april/2022',
+            'badges': '5',
+            'quests': '5',
+            'certificates': '5'
+        },
+        {
+            'name': 'Farzad Mobasher',
+            'email': 'farzad.mobasher@hva.nl',
+            'logIn': '14/april/2022',
+            'badges': '5',
+            'quests': '5',
+            'certificates': '5'
+        },
+        {
+            'name': 'Ayoub Barkani',
+            'email': 'ayoub.barkani@hva.nl',
+            'logIn': '14/april/2022',
+            'badges': '5',
+            'quests': '5',
+            'certificates': '5'
+        },
+        {
+            'name': 'Po Man',
+            'email': 'po.man@hva.nl',
+            'logIn': '14/april/2022',
+            'badges': '5',
+            'quests': '5',
+            'certificates': '5'
+        }
+
+    ]
+    return render_template('users.html', protected=False, students=students)
 
 
 # classes route
