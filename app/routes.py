@@ -1,11 +1,12 @@
-
+import pandas as pd
 from flask import render_template, request, make_response, redirect, url_for
 from app import app, fetchData
-from app.static.py.badgecraft import fetch, getId, login, getFetchedData
+from app.static.py.badgecraft import fetch, getId, login, getFetchedData, getUsername, projectDetails
 
 
 # TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
 # FETCHED_DATA = fetch(TOKEN)
+
 
 
 # base application route
@@ -17,26 +18,37 @@ def index():
 
 # overview route
 @app.route('/overview')
-def overview():
 
+
+def overview():
+    loggedInUser = request.cookies.get("username")
     studentCount = fetchData["list.projects.list.users.list.name"].nunique()
-    # numberBadges = fetchData["list.projects.list.name"].nunique()
+    numberBadges = fetchData["list.projects.list.users.list.stats.badges"].nunique()
+    projectList = fetchData["list.projects.list.name"].unique()
+
+    projectInfo = {"projectName": projectList, "projectStatus": projectDetails}
+    projectInfoDf = pd.DataFrame(data=projectInfo) 
+
+    projectInfoDf.head()
+
+
     # average_badge_per_student
     # usersBelowAverage
 
-
-    return render_template('overview.html', protected=False, student_count = studentCount)
+    return render_template('overview.html', protected=False, student_count = studentCount, current_user = loggedInUser, number_badges = numberBadges, project_info = projectInfoDf)
 
 
 # helppage route
 @app.route('/helppage')
 def helppage():
-    return render_template('helppage.html', protected=False)
+    loggedInUser = request.cookies.get("username")
+    return render_template('helppage.html', protected=False, current_user = loggedInUser)
 
 
-# users route
-@app.route('/users')
+# students route
+@app.route('/students')
 def users():
+    loggedInUser = request.cookies.get("username")
     students = [
         {
             'name': 'Mike Schilder',
@@ -80,7 +92,8 @@ def users():
         }
 
     ]
-    return render_template('users.html', protected=False, students=students)
+    return render_template('students.html', protected=False, students=students, current_user = loggedInUser)
+
 
 
 # classes route
@@ -121,7 +134,8 @@ def classes():
     today = [row[1] for row in data]
     total = [row[2] for row in data]
 
-    return render_template('classes.html', classes=classes, labels=labels, today=today, total=total, protected=False)
+    loggedInUser = request.cookies.get("username")
+    return render_template('classes.html', classes=classes, labels=labels, today=today, total=total, protected=False, current_user = loggedInUser)
 
 
 @app.route('/account', methods=['POST'])
@@ -134,10 +148,11 @@ def account():
     if res["success"]:
         token = res["token"]
         id = getId({"a":token})
+        username = getUsername({"a":token})
 
-        
 
         resp = make_response(redirect(url_for("overview")))
+        resp.set_cookie('username', username)
         resp.set_cookie('token', token)
         resp.set_cookie("userId", id)
 
@@ -145,4 +160,5 @@ def account():
 
     else:
         return """{"response":400}"""
+
 

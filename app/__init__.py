@@ -1,6 +1,6 @@
 from flask import Flask
 from apscheduler.schedulers.background import BackgroundScheduler
-from app.static.py.badgecraft import fetch, TOKEN
+from app.static.py.badgecraft import fetch, TOKEN, getProjectStatus
 import time
 import atexit
 
@@ -16,6 +16,5 @@ atexit.register(lambda: scheduler.shutdown())
 app = Flask(__name__)
 fetchData = fetch(TOKEN)
 
-# print("fetchedData from init: " , fetchData)
 
 from . import routes

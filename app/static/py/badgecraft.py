@@ -12,6 +12,8 @@ url = 'https://www.badgecraft.eu/api/graphql'
 QUERY_LIMIT = 10
 TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
 FETCHED_DATA = {}
+projectDetails = []
+
 
 
 # client = GraphqlClient(endpoint=url)
@@ -22,18 +24,34 @@ def getFetchedData():
   return FETCHED_DATA
 
 
-def getId(token):
+def getUsername(token):
   query = f"""
     query{{
   me{{
-    id
+    displayName
   }}
 }}
 
 
   """
   result = requests.post(url, json={"query": query}, cookies=token).json()
-  print(result)
+  print("getId::", result)
+  return result["data"]["me"]["displayName"]
+
+
+def getId(token):
+  query = f"""
+    query{{
+  me{{
+    id
+    displayName
+  }}
+}}
+
+
+  """
+  result = requests.post(url, json={"query": query}, cookies=token).json()
+  print("getId::", result)
   return result["data"]["me"]["id"]
 
 
@@ -135,6 +153,32 @@ def not_proud_of_this(user_offset, project_offset):
     """ % (alias, project_offset, user_offset), alias)
 
 
+def getProjectStatus(fetchData, projectName):
+    scoreArr = [0,0,0]
+    studentList = fetchData["list.projects.list.users.list.name"].unique()
+
+    for student in studentList:
+
+        test = fetchData.loc[((fetchData["list.projects.list.name"] == projectName) & (fetchData['list.projects.list.users.list.name'] == student))]
+
+        totalModules = test["list.projects.list.users.list.badgesStatuses.list.progress"].shape[0]
+        modulesCompleted = (test["list.projects.list.users.list.badgesStatuses.list.progress"] == 100.0).sum()
+
+        # # if completed modules is equal to total, plus 1 project list (done)
+        if(modulesCompleted == totalModules and totalModules != 0):   
+            scoreArr[2] += 1
+            # if completed modules is lower than total modules but not 0, plus 1 project list (in progress)
+        if(modulesCompleted < totalModules and modulesCompleted > 0):
+            scoreArr[1] += 1
+
+            # if completed modules is equal to 0, plus 1 project list (not started)
+        if(modulesCompleted == 0):
+            scoreArr[0] += 1
+            
+    return scoreArr
+
+
+
 def fetch(token):
     token = {"a": token}
     project_loop = math.ceil(get_project_amount(token) / QUERY_LIMIT)  # -1 because offset starts at 0
@@ -157,9 +201,13 @@ def fetch(token):
     for alias in aliases:
         new_df = json_to_dataframe(tim["data"][alias])
         df = pd.concat([df, new_df])
+    
+    projectList = df["list.projects.list.name"].unique()
+    
+    for project in projectList:
+      projectDetails.append(getProjectStatus(df, project))
         
-      
-    print(df.info())
     FETCHED_DATA = df
     return FETCHED_DATA
+
 
