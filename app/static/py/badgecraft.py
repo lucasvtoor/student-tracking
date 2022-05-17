@@ -15,13 +15,7 @@ FETCHED_DATA = {}
 projectDetails = []
 
 
-
 # client = GraphqlClient(endpoint=url)
-
-
-
-def getFetchedData():
-  return FETCHED_DATA
 
 
 def getUsername(token):
@@ -153,16 +147,18 @@ def not_proud_of_this(user_offset, project_offset):
     """ % (alias, project_offset, user_offset), alias)
 
 
+# get project status per projoct
 def getProjectStatus(fetchData, projectName):
     scoreArr = [0,0,0]
     studentList = fetchData["list.projects.list.users.list.name"].unique()
 
+    # loop through student list
     for student in studentList:
 
-        test = fetchData.loc[((fetchData["list.projects.list.name"] == projectName) & (fetchData['list.projects.list.users.list.name'] == student))]
+        moduleList = fetchData.loc[((fetchData["list.projects.list.name"] == projectName) & (fetchData['list.projects.list.users.list.name'] == student))]
 
-        totalModules = test["list.projects.list.users.list.badgesStatuses.list.progress"].shape[0]
-        modulesCompleted = (test["list.projects.list.users.list.badgesStatuses.list.progress"] == 100.0).sum()
+        totalModules = moduleList["list.projects.list.users.list.badgesStatuses.list.progress"].shape[0]
+        modulesCompleted = (moduleList["list.projects.list.users.list.badgesStatuses.list.progress"] == 100.0).sum()
 
         # # if completed modules is equal to total, plus 1 project list (done)
         if(modulesCompleted == totalModules and totalModules != 0):   
@@ -174,11 +170,19 @@ def getProjectStatus(fetchData, projectName):
             # if completed modules is equal to 0, plus 1 project list (not started)
         if(modulesCompleted == 0):
             scoreArr[0] += 1
-            
+    # return array with project status 
     return scoreArr
 
+# calculate badgecount per student
+def getbadgecount(data, student):
+    df = data.loc[((data['list.projects.list.users.list.name'] == student))]
+    df = df.drop_duplicates(subset=['list.projects.list.name'])
+    badgeCount = df['list.projects.list.users.list.stats.badges'].sum()
+      
+    return badgeCount
 
 
+# fetch data from badgecraft
 def fetch(token):
     token = {"a": token}
     project_loop = math.ceil(get_project_amount(token) / QUERY_LIMIT)  # -1 because offset starts at 0
@@ -202,8 +206,10 @@ def fetch(token):
         new_df = json_to_dataframe(tim["data"][alias])
         df = pd.concat([df, new_df])
     
+
+
     projectList = df["list.projects.list.name"].unique()
-    
+
     for project in projectList:
       projectDetails.append(getProjectStatus(df, project))
         

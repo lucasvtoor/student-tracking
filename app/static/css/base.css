@@ -1,0 +1,4 @@
+.customSidebar {
+  position: -webkit-sticky;
+  position: sticky;
+}
