@@ -1,5 +1,6 @@
 
 from flask import render_template, request, make_response, redirect, url_for
+from sympy import re
 from app import app, fetchData
 from app.static.py.badgecraft import fetch, getId, login, getFetchedData
 
@@ -34,6 +35,11 @@ def helppage():
     return render_template('helppage.html', protected=False)
 
 
+# Detail rout
+@app.route('/detail/<user>')
+def detail(user):
+    return render_template('detail.html',protected=False, user=user)
+
 # users route
 @app.route('/users')
 def users():
@@ -41,7 +47,6 @@ def users():
         {
             'name': 'Mike Schilder',
             'email': 'mike.schilder@hva.nl',
-            'logIn': '14/april/2022',
             'badges': '5',
             'quests': '5',
             'certificates': '5'
@@ -49,7 +54,6 @@ def users():
         {
             'name': 'Hooshang Kooshani',
             'email': 'hooshang.kooshani@hva.nl',
-            'logIn': '14/april/2022',
             'badges': '5',
             'quests': '5',
             'certificates': '5'
@@ -57,7 +61,6 @@ def users():
         {
             'name': 'Farzad Mobasher',
             'email': 'farzad.mobasher@hva.nl',
-            'logIn': '14/april/2022',
             'badges': '5',
             'quests': '5',
             'certificates': '5'
@@ -65,7 +68,6 @@ def users():
         {
             'name': 'Ayoub Barkani',
             'email': 'ayoub.barkani@hva.nl',
-            'logIn': '14/april/2022',
             'badges': '5',
             'quests': '5',
             'certificates': '5'
@@ -73,7 +75,6 @@ def users():
         {
             'name': 'Po Man',
             'email': 'po.man@hva.nl',
-            'logIn': '14/april/2022',
             'badges': '5',
             'quests': '5',
             'certificates': '5'

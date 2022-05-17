@@ -73,7 +73,8 @@
                       <label class="form-check-label" for="inlineCheckbox4">Badges aflopend</label>
                     </div>
                     <label for="customRange2" class="form-label">Hoeveelheid badges</label>
-                    <input type="range" value="5" min="0" max="50" oninput="this.nextElementSibling.value = this.value" class="form-range" id="customRange">
+                    <input type="range" value="5" min="0" max="50" oninput="this.nextElementSibling.value = this.value"
+                      class="form-range" id="customRange">
                     <output>5</output>
                   </div>
                 </div>
@@ -98,7 +99,8 @@
                       <label class="form-check-label" for="inlineCheckbox6">Quests aflopend</label>
                     </div>
                     <label for="customRange2" class="form-label">Hoeveelheid quests</label>
-                    <input type="range" value="5" min="0" max="50" oninput="this.nextElementSibling.value = this.value" class="form-range" id="customRange2">
+                    <input type="range" value="5" min="0" max="50" oninput="this.nextElementSibling.value = this.value"
+                      class="form-range" id="customRange2">
                     <output>5</output>
                   </div>
                 </div>
@@ -123,12 +125,13 @@
                       <label class="form-check-label" for="inlineCheckbox8">Certificates aflopend</label>
                     </div>
                     <label for="customRange2" class="form-label">Hoeveelheid certificates</label>
-                    <input type="range" value="5" min="0" max="50" oninput="this.nextElementSibling.value = this.value" class="form-range" id="customRange3">
+                    <input type="range" value="5" min="0" max="50" oninput="this.nextElementSibling.value = this.value"
+                      class="form-range" id="customRange3">
                     <output>5</output>
                   </div>
                 </div>
               </div>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
@@ -144,108 +147,28 @@
         <tr>
           <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th>
           <th scope="col" width="5%" style="color: white;">Name</th>
-          <th scope="col" width="20%" style="color: white;">User Status</th>
           <th scope="col" width="20%" style="color: white;">Badges</th>
           <th scope="col" width="20%" style="color: white;">Quests</th>
           <th scope="col" width="20%" style="color: white;">Certificates</th>
-          <th scope="col" width="10%"></th>
+          <th scope="col" width="30%"></th>
         </tr>
       </thead>
       <tbody>
         {% for student in students %}
-        <tr class="border">
-          <th><input class="form-check-input" type="checkbox"></th>
+        <tr onclick="window.location.href='{{ url_for('detail', user=student) }}';" class="border">
+          <td><input class="form-check-input" type="checkbox"></td>
           <td>{{student.name}}
             <br>
             {{student.email}}
-          </td>
-          <td>
-            <div class="user-status">
-              <span class="ms-1">Last login:
-                {{student.logIn}}</span>
-            </div>
           </td>
           <td>{{student.badges}}</td>
           <td>{{student.quests}}</td>
           <td>{{student.certificates}}</td>
         </tr>
         {% endfor %}
-        <!-- 
-        <tr>
-          <th scope="row"><input class="form-check-input" type="checkbox"></th>
-          <td>Hooshang Kooshani
-            hooshang.kooshani@hva.nl
-          </td>
-          </td>
-          <td>
-            <div class="user-status">
-
-              <div class="bottom"><span class="ms-1">Last login: 14/april/2022</span>
-          </td>
-  </div>
-</div>
-
-
-</tr>
-<tr>
-  <th scope="row"><input class="form-check-input" type="checkbox"></th>
-  <td>Farzad Mobasher
-    farzad.mobasher@hva.nl
-  </td>
-  <td>
-    <div class="user-status">
-      <div class="top"> <span class="badge bg-secondary">Inactive</span> </div>
-      <div class="bottom"><i class="fa fa-check-circle-o green"></i><span class="ms-1">Last login: 14/april/2022</span>
-  </td>
-  </div>
-  </div>
-  <td>
-    <div class="progress">
-      <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0"
-        aria-valuemax="100"> Programming 1:</div>
-    </div>
-  </td>
-</tr>
-<tr>
-  <th scope="row"><input class="form-check-input" type="checkbox"></th>
-  <td>Ayoub Barkani
-    ayoub.barkani@hva.nl
-  </td>
-  <td>
-    <div class="user-status">
-      <div class="top"> <span class="badge bg-secondary">Inactive</span> </div>
-      <div class="bottom"><i class="fa fa-check-circle-o green"></i><span class="ms-1">Last login: 14/april/2022</span>
-  </td>
-  </div>
-  </div>
-  <td>
-    <div class="progress">
-      <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0"
-        aria-valuemax="100"> Programming 1:</div>
-    </div>
-  </td>
-</tr>
-<tr>
-  <th scope="row"><input class="form-check-input" type="checkbox"></th>
-  <td> Po Man <br> po.man@hva.nl
-  </td>
-  <td>
-    <div class="user-status">
-      <div class="top"> <span class="badge bg-primary">Active</span> </div>
-      <div class="bottom"><i class="fa fa-check-circle-o green"></i><span class="ms-1">Last login: 14/april/2022</span>
-  </td>
-  </div>
-  </div>
-  <td>
-    <div class="progress">
-      <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0"
-        aria-valuemax="100"> Programming 1</div>
-    </div>
-  </td>
-</tr> -->
       </tbody>
     </table>
   </div>
 </div>
-
+<script src="{{ url_for('static',filename='js/users.js') }}"></script>
 {%endblock%}

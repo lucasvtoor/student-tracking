@@ -1,0 +1,13 @@
+body,
+html {
+  background-color: #f7f8fc;
+  min-height: 100vh;
+}
+
+.margin-temp {
+  margin-top: 23px;
+}
+
+.top-container {
+  min-height: 100vh;
+}
