@@ -8,6 +8,10 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static',filename='css/base.css') }}"
+    />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link
@@ -22,7 +26,7 @@
     <div class="top-container d-flex">
       {% if protected == False %} {% block navbar %}
       <div
-        class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
+        class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark customSidebar"
         style="width: 280px"
       >
         <a
