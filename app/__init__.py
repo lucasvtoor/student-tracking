@@ -1,6 +1,6 @@
 from flask import Flask
 from apscheduler.schedulers.background import BackgroundScheduler
-from app.static.py.badgecraft import fetch, TOKEN, getProjectStatus
+from app.static.py.badgecraft import fetch, TOKEN
 import time
 import atexit
 
