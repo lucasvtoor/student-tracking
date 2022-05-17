@@ -11,7 +11,7 @@ const data = {
   labels: labels,
   datasets: [
     {
-      label: "Questions",
+      label: "Badges",
       backgroundColor: "#3190ED",
       borderColor: "#3190ED",
       data: [60, 40, 30, 20, 10, 5],

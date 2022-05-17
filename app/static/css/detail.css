@@ -11,3 +11,32 @@ html {
 .top-container {
   min-height: 100vh;
 }
+
+#currentUser {
+  display: flex;
+  flex-direction: row;
+}
+
+#currentUser h5 {
+  margin: auto;
+}
+
+#currentUser img {
+  width: 80px;
+  height: 50px;
+  border-radius: 10px;
+}
+
+.top {
+  background-color: #f7f8fc;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+#userImage {
+  width: 20%;
+  height: auto;
+}

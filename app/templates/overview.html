@@ -12,7 +12,7 @@
       <h3>Overview</h3>
       <div id="currentUser">
         <img src="{{ url_for('static',filename='img/usericon.png') }}" alt="" />
-        <h5>Hakan Akkas</h5>
+        <h5>{{ current_user }}</h5>
       </div>
     </div>
   </div>
@@ -20,7 +20,7 @@
     <div class="col">
       <div class="card text-center cards-counter">
         <div class="card-body">
-          <h5 class="card-title">Students</h5>
+          <h5 class="card-title">Student count</h5>
           <h2>{{ student_count }}</h2>
         </div>
       </div>
@@ -28,7 +28,7 @@
     <div class="col">
       <div class="card text-center cards-counter">
         <div class="card-body">
-          <h5 class="card-title">Number of badges</h5>
+          <h5 class="card-title">Total badges earned</h5>
           <h2>{{ number_badges }}</h2>
         </div>
       </div>
@@ -44,7 +44,7 @@
     <div class="col">
       <div class="card text-center cards-counter">
         <div class="card-body">
-          <h5 class="card-title">Users below average</h5>
+          <h5 class="card-title">Students scoring below average</h5>
           <h2>5</h2>
         </div>
       </div>
@@ -78,94 +78,22 @@
           </tr>
         </thead>
         <tbody>
+          {% for key,value in project_info.iterrows() %}
+
           <tr>
             <th scope="row">
               <div class="excersize-info">
-                <div class="img-container">
-                  <img
-                    src="{{ url_for('static',filename='img/user-interaction.png') }}"
-                    alt=""
-                  />
-                </div>
                 <div class="text-container">
-                  <h4>User Interaction</h4>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </p>
+                  <h4>{{ value['projectName'] }}</h4>
                 </div>
               </div>
             </th>
 
-            <td>37</td>
-            <td>11</td>
-            <td>17</td>
+            <td>{{ value['projectStatus'][0] }}</td>
+            <td>{{ value['projectStatus'][1] }}</td>
+            <td>{{ value['projectStatus'][2] }}</td>
           </tr>
-          <tr>
-            <th scope="row">
-              <div class="excersize-info">
-                <div class="img-container">
-                  <img
-                    src="{{ url_for('static',filename='img/programming1.png') }}"
-                    alt=""
-                  />
-                </div>
-                <div class="text-container">
-                  <h4>Programming 1</h4>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </p>
-                </div>
-              </div>
-            </th>
-
-            <td>8</td>
-            <td>31</td>
-            <td>20</td>
-          </tr>
-          <tr>
-            <th scope="row">
-              <div class="excersize-info">
-                <div class="img-container">
-                  <img
-                    src="{{ url_for('static',filename='img/programming2.png') }}"
-                    alt=""
-                  />
-                </div>
-                <div class="text-container">
-                  <h4>Programming 2</h4>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </p>
-                </div>
-              </div>
-            </th>
-
-            <td>21</td>
-            <td>4</td>
-            <td>14</td>
-          </tr>
-          <tr>
-            <th scope="row">
-              <div class="excersize-info">
-                <div class="img-container">
-                  <img
-                    src="{{ url_for('static',filename='img/html-css.png') }}"
-                    alt=""
-                  />
-                </div>
-                <div class="text-container">
-                  <h4>HTML/CSS</h4>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </p>
-                </div>
-              </div>
-            </th>
-
-            <td>24</td>
-            <td>6</td>
-            <td>15</td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
