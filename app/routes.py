@@ -1,7 +1,7 @@
 import pandas as pd
 from flask import render_template, request, make_response, redirect, url_for
 from app import app, fetchData
-from app.static.py.badgecraft import fetch, getId, login, getFetchedData, getUsername, projectDetails
+from app.static.py.badgecraft import fetch, getId, login, getFetchedData, getUsername, projectDetails, getbadgecount
 
 
 # TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
@@ -23,19 +23,29 @@ def index():
 def overview():
     loggedInUser = request.cookies.get("username")
     studentCount = fetchData["list.projects.list.users.list.name"].nunique()
-    numberBadges = fetchData["list.projects.list.users.list.stats.badges"].nunique()
+    studentList = fetchData["list.projects.list.users.list.name"].unique()
     projectList = fetchData["list.projects.list.name"].unique()
 
     projectInfo = {"projectName": projectList, "projectStatus": projectDetails}
     projectInfoDf = pd.DataFrame(data=projectInfo) 
 
+
+    totalBadgeCount = 0
+    belowAverageCount = 0
+
+    for student in studentList:
+        badgecount = getbadgecount(fetchData, student)
+        if(badgecount < 12):
+            belowAverageCount+1
+        totalBadgeCount += badgecount
+
+    averageBadgeCount = round(totalBadgeCount/ studentCount)
+
     projectInfoDf.head()
 
-
-    # average_badge_per_student
-    # usersBelowAverage
-
-    return render_template('overview.html', protected=False, student_count = studentCount, current_user = loggedInUser, number_badges = numberBadges, project_info = projectInfoDf)
+    return render_template('overview.html', protected=False, student_count = studentCount, 
+    current_user = loggedInUser, number_badges = totalBadgeCount, project_info = projectInfoDf,
+    average_badgecount = averageBadgeCount, below_average_count = belowAverageCount)
 
 
 # helppage route

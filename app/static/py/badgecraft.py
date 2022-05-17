@@ -15,10 +15,7 @@ FETCHED_DATA = {}
 projectDetails = []
 
 
-
 # client = GraphqlClient(endpoint=url)
-
-
 
 def getFetchedData():
   return FETCHED_DATA
@@ -178,6 +175,14 @@ def getProjectStatus(fetchData, projectName):
     return scoreArr
 
 
+def getbadgecount(data, student):
+    df = data.loc[((data['list.projects.list.users.list.name'] == student))]
+    df = df.drop_duplicates(subset=['list.projects.list.name'])
+    badgeCount = df['list.projects.list.users.list.stats.badges'].sum()
+      
+    return badgeCount
+
+
 
 def fetch(token):
     token = {"a": token}
@@ -203,7 +208,7 @@ def fetch(token):
         df = pd.concat([df, new_df])
     
     projectList = df["list.projects.list.name"].unique()
-    
+
     for project in projectList:
       projectDetails.append(getProjectStatus(df, project))
         
