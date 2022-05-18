@@ -78,6 +78,7 @@ def users():
     # stundentListAll = fetchData.drop(columns=['list.projects.list.users.list.badgesStatuses', 'list.projects.list.users.list.badgesStatuses.list'])
 
     stundentList = fetchData.drop(columns=['list.projects.list.users.list.badgesStatuses', 'list.projects.list.users.list.badgesStatuses.list', "list.projects.list.users.list.badgesStatuses.list.progress", "list.projects.list.name", "list.projects.list.users.list.badgesStatuses.list.badgeClass.name"])
+    stundentList = stundentList[~stundentList.duplicated('list.projects.list.users.list.name')]
     # studentHead = stundentList.head()
 
     loggedInUser = request.cookies.get("username")

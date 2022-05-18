@@ -1,3 +1,4 @@
 window.onload = function () {
-  document.getElementById("text").innerHTML = sessionStorage["name"];
+  document.getElementById("nameField").innerHTML = sessionStorage["name"];
+  document.getElementById("emailField").innerHTML = sessionStorage["email"];
 };

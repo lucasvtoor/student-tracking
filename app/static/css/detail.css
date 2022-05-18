@@ -40,3 +40,19 @@ html {
   width: 20%;
   height: auto;
 }
+
+.searchbar-div span {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.searchbar {
+  border-radius: 5px;
+  color: #9fa2b4;
+  background-color: #f7f8fc;
+  width: 100%;
+  border: none;
+}
+.searchbar-div {
+  width: 200px;
+}
