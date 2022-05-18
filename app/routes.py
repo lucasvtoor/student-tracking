@@ -2,7 +2,7 @@ import pandas as pd
 from flask import render_template, request, make_response, redirect, url_for
 from sympy import re
 from app import app, fetchData
-from app.static.py.badgecraft import getId, login, getUsername, projectDetails, getbadgecount
+from app.static.py.badgecraft import getId, login, getUsername, projectDetails, getbadgecount, getStudentProgress
 
 
 # TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
@@ -60,16 +60,14 @@ def helppage():
 
 
 # Detail rout
-@app.route('/detail')
-def detail():
-    
-    projectList = fetchData["list.projects.list.name"].unique()
-
-    projectInfo = {"projectName": projectList, "projectStatus": projectDetails}
-    projectInfoDf = pd.DataFrame(data=projectInfo) 
+@app.route('/detail/<name>')
+def detail(name):
+   
+    studentData = getStudentProgress(fetchData,name)
+    print(studentData)
 
     loggedInUser = request.cookies.get("username")
-    return render_template('detail.html',protected=False, current_user = loggedInUser, project_info = projectInfoDf)
+    return render_template('detail.html',protected=False, current_user = loggedInUser, student_data = studentData, student= name)
 
 # students route
 @app.route('/students')
@@ -77,50 +75,13 @@ def users():
 
     # df.drop(columns=['list.projects.list.users.list.badgesStatuses', 'list.projects.list.users.list.badgesStatuses.list', "list.projects.list.users.list.badgesStatuses.list.progress", "list.projects.list.name", "list.projects.list.users.list.badgesStatuses.list.badgeClass.name"])
 
-    stundentListAll = fetchData.drop(columns=['list.projects.list.users.list.badgesStatuses', 'list.projects.list.users.list.badgesStatuses.list'])
+    # stundentListAll = fetchData.drop(columns=['list.projects.list.users.list.badgesStatuses', 'list.projects.list.users.list.badgesStatuses.list'])
 
     stundentList = fetchData.drop(columns=['list.projects.list.users.list.badgesStatuses', 'list.projects.list.users.list.badgesStatuses.list', "list.projects.list.users.list.badgesStatuses.list.progress", "list.projects.list.name", "list.projects.list.users.list.badgesStatuses.list.badgeClass.name"])
-    studentHead = stundentList.head()
+    # studentHead = stundentList.head()
 
     loggedInUser = request.cookies.get("username")
-    students = [
-        {
-            'name': 'Mike Schilder',
-            'email': 'mike.schilder@hva.nl',
-            'badges': '5',
-            'quests': '5',
-            'certificates': '5'
-        },
-        {
-            'name': 'Hooshang Kooshani',
-            'email': 'hooshang.kooshani@hva.nl',
-            'badges': '5',
-            'quests': '5',
-            'certificates': '5'
-        },
-        {
-            'name': 'Farzad Mobasher',
-            'email': 'farzad.mobasher@hva.nl',
-            'badges': '5',
-            'quests': '5',
-            'certificates': '5'
-        },
-        {
-            'name': 'Ayoub Barkani',
-            'email': 'ayoub.barkani@hva.nl',
-            'badges': '5',
-            'quests': '5',
-            'certificates': '5'
-        },
-        {
-            'name': 'Po Man',
-            'email': 'po.man@hva.nl',
-            'badges': '5',
-            'quests': '5',
-            'certificates': '5'
-        }
-
-    ]
+    
     return render_template('students.html', protected=False, students=stundentList, current_user = loggedInUser)
 
 

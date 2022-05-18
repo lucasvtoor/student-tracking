@@ -5,6 +5,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import pandas as pd
 import requests
 from app.static.py.query_cleaner import json_to_dataframe
+import numpy as np
 
 USERNAME = ""
 PASSWORD = ""
@@ -180,6 +181,27 @@ def getbadgecount(data, student):
     badgeCount = df['list.projects.list.users.list.stats.badges'].sum()
       
     return badgeCount
+
+#Detail info student
+# def getStudentProgress(data, student):
+#    data.drop(data.columns.difference(['list.projects.list.users.list.name','list.projects.list.name', 'list.projects.list.users.list.badgesStatuses.list.badgeClass.name', 'list.projects.list.users.list.badgesStatuses.list.progress']), 1, inplace=True)
+   
+   
+#    specificData = data.loc[((data['list.projects.list.users.list.name'] == student))]
+#    specificData["module.progress"] = np.where(specificData['list.projects.list.users.list.badgesStatuses.list.progress'] != 100.0, False, True)
+#    specificData.drop(['list.projects.list.users.list.badgesStatuses.list.progress'], 1, inplace=True)
+
+#    return specificData
+
+
+def getStudentProgress(data, name):
+    data.drop(data.columns.difference(['list.projects.list.users.list.name','list.projects.list.name', 'list.projects.list.users.list.badgesStatuses.list.badgeClass.name', 'list.projects.list.users.list.badgesStatuses.list.progress']), 1, inplace=True)
+    data.dropna(inplace=True)
+    data['list.projects.list.users.list.name'] = data['list.projects.list.users.list.name'].str.replace(" ","")
+    specificData = data.loc[((data['list.projects.list.users.list.name'] == name))]
+    specificData["module.progress"] = np.where(specificData['list.projects.list.users.list.badgesStatuses.list.progress'] != 100.0, False, True)
+    specificData.drop(['list.projects.list.users.list.badgesStatuses.list.progress'], 1, inplace=True)
+    return specificData  
 
 
 # fetch data from badgecraft

@@ -36,32 +36,29 @@
                 <input type="text" class="col-md-2 searchbar" placeholder="Search" />
             </div>
         </div>
+        {{student_data}}
 
         <div class="col">
             <table class="table">
                 <thead>
                     <tr class="head-col">
-                        <th scope="col">Assignment</th>
-                        <th class="col-top" scope="col">Not started</th>
-                        <th class="col-top" scope="col">In progress</th>
-                        <th class="col-top" scope="col">Done</th>
+                        <th scope="col">Project title</th>
+                        <th class="col-top" scope="col">Module title</th>
+                        <th class="col-top" scope="col">Module completed</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for key,value in project_info.iterrows() %}
-
+                    {% for key,value in student_data.iterrows() %}
                     <tr>
                         <th scope="row">
                             <div class="excersize-info">
                                 <div class="text-container">
-                                    <h4>{{ value['projectName'] }}</h4>
+                                    <h4>{{ value['list.projects.list.name'] }}</h4>
                                 </div>
                             </div>
                         </th>
-
-                        <td>{{ value['projectStatus'][0] }}</td>
-                        <td>{{ value['projectStatus'][1] }}</td>
-                        <td>{{ value['projectStatus'][2] }}</td>
+                        <td>{{ value['list.projects.list.users.list.badgesStatuses.list.badgeClass.name'] }}</td>
+                        <td>{{ value['module.progress'] }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
