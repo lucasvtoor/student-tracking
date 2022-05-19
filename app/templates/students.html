@@ -43,207 +43,201 @@
           Filter
         </button>
         <div class="collapse" id="collapseFilter">
-          <div id="collapseIfOtherActive">
-            <p>
-              <button
-                class="btn btn-primary"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseFilterOption"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                Namen
-              </button>
-              <button
-                class="btn btn-primary"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseFilterOption2"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                Badges
-              </button>
-              <button
-                class="btn btn-primary"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseFilterOption3"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                Quests
-              </button>
-              <button
-                class="btn btn-primary"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseFilterOption4"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                Certificates
-              </button>
-            </p>
-            <div
-              class="collapse"
-              id="collapseFilterOption"
-              data-bs-parent="#collapseIfOtherActive"
-            >
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="inlineCheckbox1"
-                  value="option1"
-                />
-                <label class="form-check-label" for="inlineCheckbox1"
-                  >Namen oplopend</label
+          <form action="{{ url_for('users') }}" method="GET">
+            <div id="collapseIfOtherActive">
+              <p>
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseFilterOption"
+                  aria-expanded="false"
+                  aria-controls="collapseExample"
                 >
+                  Namen
+                </button>
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseFilterOption2"
+                  aria-expanded="false"
+                  aria-controls="collapseExample"
+                >
+                  Badges
+                </button>
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseFilterOption3"
+                  aria-expanded="false"
+                  aria-controls="collapseExample"
+                >
+                  Quests
+                </button>
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseFilterOption4"
+                  aria-expanded="false"
+                  aria-controls="collapseExample"
+                >
+                  Certificates
+                </button>
+              </p>
+              <div
+                class="collapse"
+                id="collapseFilterOption"
+                data-bs-parent="#collapseIfOtherActive"
+              >
+                <div class="form-check form-check-inline">
+                  <button
+                    type="submit"
+                    name="sort"
+                    value="name-asc"
+                    class="btn btn-secondary"
+                  >
+                    name ascending
+                  </button>
+                </div>
+                <div class="form-check form-check-inline">
+                  <button
+                    type="submit"
+                    name="sort"
+                    value="name-desc"
+                    class="btn btn-secondary"
+                  >
+                    name descending
+                  </button>
+                </div>
               </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="inlineCheckbox2"
-                  value="option2"
-                />
-                <label class="form-check-label" for="inlineCheckbox2"
-                  >Namen aflopend</label
+              <div
+                class="collapse"
+                id="collapseFilterOption2"
+                data-bs-parent="#collapseIfOtherActive"
+              >
+                <div class="form-check form-check-inline">
+                  <button
+                    type="submit"
+                    name="sort"
+                    value="badge-asc"
+                    class="btn btn-secondary"
+                  >
+                    badges ascending
+                  </button>
+                </div>
+                <div class="form-check form-check-inline">
+                  <button
+                    type="submit"
+                    name="sort"
+                    value="badge-desc"
+                    class="btn btn-secondary"
+                  >
+                    badges descending
+                  </button>
+                </div>
+                <br />
+                <br />
+                <label for="customRange2" class="form-label"
+                  >Hoeveelheid badges</label
                 >
+                <input
+                  type="range"
+                  value="5"
+                  min="0"
+                  max="50"
+                  oninput="this.nextElementSibling.value = this.value"
+                  class="form-range"
+                  id="customRange2"
+                />
+                <output>5</output>
+              </div>
+              <div
+                class="collapse"
+                id="collapseFilterOption3"
+                data-bs-parent="#collapseIfOtherActive"
+              >
+                <div class="form-check form-check-inline">
+                  <button
+                    type="submit"
+                    name="sort"
+                    value="quest-asc"
+                    class="btn btn-secondary"
+                  >
+                    quests ascending
+                  </button>
+                </div>
+                <div class="form-check form-check-inline">
+                  <button
+                    type="submit"
+                    name="sort"
+                    value="quest-desc"
+                    class="btn btn-secondary"
+                  >
+                    quests descending
+                  </button>
+                </div>
+                <br />
+                <br />
+                <label for="customRange3" class="form-label"
+                  >Hoeveelheid Quests</label
+                >
+                <input
+                  type="range"
+                  value="5"
+                  min="0"
+                  max="50"
+                  oninput="this.nextElementSibling.value = this.value"
+                  class="form-range"
+                  id="customRange3"
+                />
+                <output>5</output>
+              </div>
+              <div
+                class="collapse"
+                id="collapseFilterOption4"
+                data-bs-parent="#collapseIfOtherActive"
+              >
+                <div class="form-check form-check-inline">
+                  <button
+                    type="submit"
+                    name="sort"
+                    value="cert-asc"
+                    class="btn btn-secondary"
+                  >
+                    Certificates ascending
+                  </button>
+                </div>
+                <div class="form-check form-check-inline">
+                  <button
+                    type="submit"
+                    name="sort"
+                    value="cert-desc"
+                    class="btn btn-secondary"
+                  >
+                    Certificates descending
+                  </button>
+                </div>
+                <br />
+                <br />
+                <label for="customRange4" class="form-label"
+                  >Hoeveelheid Certificates</label
+                >
+                <input
+                  type="range"
+                  value="5"
+                  min="0"
+                  max="50"
+                  oninput="this.nextElementSibling.value = this.value"
+                  class="form-range"
+                  id="customRange4"
+                />
+                <output>5</output>
               </div>
             </div>
-            <div
-              class="collapse"
-              id="collapseFilterOption2"
-              data-bs-parent="#collapseIfOtherActive"
-            >
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="inlineCheckbox3"
-                  value="option3"
-                />
-                <label class="form-check-label" for="inlineCheckbox3"
-                  >Badges oplopend</label
-                >
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="inlineCheckbox4"
-                  value="option4"
-                />
-                <label class="form-check-label" for="inlineCheckbox4"
-                  >Badges aflopend</label
-                >
-              </div>
-              <br />
-              <br />
-              <label for="customRange2" class="form-label"
-                >Hoeveelheid badges</label
-              >
-              <input
-                type="range"
-                value="5"
-                min="0"
-                max="50"
-                oninput="this.nextElementSibling.value = this.value"
-                class="form-range"
-                id="customRange2"
-              />
-              <output>5</output>
-            </div>
-            <div
-              class="collapse"
-              id="collapseFilterOption3"
-              data-bs-parent="#collapseIfOtherActive"
-            >
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="inlineCheckbox5"
-                  value="option3"
-                />
-                <label class="form-check-label" for="inlineCheckbox5"
-                  >Quests oplopend</label
-                >
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="inlineCheckbox6"
-                  value="option4"
-                />
-                <label class="form-check-label" for="inlineCheckbox6"
-                  >Quests aflopend</label
-                >
-              </div>
-              <br />
-              <br />
-              <label for="customRange3" class="form-label"
-                >Hoeveelheid Quests</label
-              >
-              <input
-                type="range"
-                value="5"
-                min="0"
-                max="50"
-                oninput="this.nextElementSibling.value = this.value"
-                class="form-range"
-                id="customRange3"
-              />
-              <output>5</output>
-            </div>
-            <div
-              class="collapse"
-              id="collapseFilterOption4"
-              data-bs-parent="#collapseIfOtherActive"
-            >
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="inlineCheckbox7"
-                  value="option5"
-                />
-                <label class="form-check-label" for="inlineCheckbox5"
-                  >Certificates oplopend</label
-                >
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="inlineCheckbox8"
-                  value="option6"
-                />
-                <label class="form-check-label" for="inlineCheckbox6"
-                  >Certificates aflopend</label
-                >
-              </div>
-              <br />
-              <br />
-              <label for="customRange4" class="form-label"
-                >Hoeveelheid Certificates</label
-              >
-              <input
-                type="range"
-                value="5"
-                min="0"
-                max="50"
-                oninput="this.nextElementSibling.value = this.value"
-                class="form-range"
-                id="customRange4"
-              />
-              <output>5</output>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -259,7 +253,9 @@
           <th scope="col" width="5%">
             <input class="form-check-input" type="checkbox" />
           </th>
-          <th scope="col" width="5%" style="color: white">Name</th>
+          <th scope="col" width="5%" style="color: white">
+            <a href=""> Name</a>
+          </th>
           <th scope="col" width="10%" style="color: white">Email</th>
           <th scope="col" width="20%" style="color: white">Badges</th>
           <th scope="col" width="20%" style="color: white">Quests</th>
@@ -273,9 +269,9 @@
           <td><input class="form-check-input" type="checkbox" /></td>
           <td class="name">{{ value['student.name'] }}</td>
           <td class="email">{{ value['student.email'] }}</td>
-          <td>{{ value['project.detaisl'][0] }}</td>
-          <td>{{ value['project.detaisl'][1] }}</td>
-          <td>{{ value['project.detaisl'][2] }}</td>
+          <td>{{ value['project.details'][0] }}</td>
+          <td>{{ value['project.details'][1] }}</td>
+          <td>{{ value['project.details'][2] }}</td>
         </tr>
         {% endfor %}
       </tbody>
