@@ -14,6 +14,7 @@ QUERY_LIMIT = 10
 TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
 FETCHED_DATA = {}
 projectDetails = []
+StudentPageOverview = []
 
 
 # client = GraphqlClient(endpoint=url)
@@ -205,6 +206,21 @@ def getStudentProgress(data, name):
     return specificData 
 
 
+
+def getstudentProjectCounts(data, student):
+    studentInfo = [0,0,0]
+    df = data.copy()
+    df = df.loc[((df['list.projects.list.users.list.name'] == student))]
+    df = df.drop_duplicates(subset=['list.projects.list.name'])
+    studentBadgeCount = df["list.projects.list.users.list.stats.badges"].sum()
+    studentQuestsCount = df["list.projects.list.users.list.stats.quests"].sum()
+    studentCertificateCount = df["list.projects.list.users.list.stats.certificates"].sum()
+    
+    studentInfo = [round(studentBadgeCount),round(studentQuestsCount),round(studentCertificateCount)]
+
+    return studentInfo  
+
+
 # fetch data from badgecraft
 def fetch(token):
     token = {"a": token}
@@ -229,7 +245,10 @@ def fetch(token):
         new_df = json_to_dataframe(tim["data"][alias])
         df = pd.concat([df, new_df])
     
-
+    studentNames = df["list.projects.list.users.list.name"].unique()
+    for student in studentNames:
+      StudentPageOverview.append(getstudentProjectCounts(df, student))
+    
 
     projectList = df["list.projects.list.name"].unique()
 
