@@ -90,23 +90,23 @@ def users():
     elif sort == "name-desc":
         studentList = completeStudentInfoList.sort_values(by='student.name', ascending=False)
     
-    elif sort == "badge-asc":
-        studentList = completeStudentInfoList.sort_values(by='project.details'[0], ascending=True)
+    # elif sort == "badge-asc":
+    #     studentList = completeStudentInfoList.sort_values(by='project.details'[0], ascending=True)
 
-    elif sort == "badge-desc":
-        studentList = completeStudentInfoList.sort_values(by='project.details'[0], ascending=False)
+    # elif sort == "badge-desc":
+    #     studentList = completeStudentInfoList.sort_values(by='project.details'[0], ascending=False)
     
-    elif sort == "quest-asc":
-        studentList = completeStudentInfoList.sort_values(by='project.details'[1], ascending=True)
+    # elif sort == "quest-asc":
+    #     studentList = completeStudentInfoList.sort_values(by='project.details'[1], ascending=True)
     
-    elif sort == "quest-desc":
-        studentList = completeStudentInfoList.sort_values(by='project.details'[1], ascending=False)
+    # elif sort == "quest-desc":
+    #     studentList = completeStudentInfoList.sort_values(by='project.details'[1], ascending=False)
     
-    elif sort == "qual-asc":
-        studentList = completeStudentInfoList.sort_values(by='project.details'[2], ascending=True)
+    # elif sort == "qual-asc":
+    #     studentList = completeStudentInfoList.sort_values(by='project.details'[2], ascending=True)
     
-    elif sort == "qual-desc":
-        studentList = completeStudentInfoList.sort_values(by='project.details', index ascending=False)
+    # elif sort == "qual-desc":
+    #     studentList = completeStudentInfoList.sort_values(by='project.details'[2],  ascending=False)
     else:
         # if `sort` is none of the above, default to showing raw list
         studentList = completeStudentInfoList 
