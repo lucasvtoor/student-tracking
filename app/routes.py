@@ -2,7 +2,7 @@ import pandas as pd
 from flask import render_template, request, make_response, redirect, url_for
 from sympy import re
 from app import app, fetchData
-from app.static.py.badgecraft import getId, login, getUsername, projectDetails, getbadgecount, getStudentProgress
+from app.static.py.badgecraft import getId, login, getUsername, projectDetails, getbadgecount, getStudentProgress, StudentPageOverview
 
 
 # TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
@@ -78,12 +78,18 @@ def users():
     # stundentListAll = fetchData.drop(columns=['list.projects.list.users.list.badgesStatuses', 'list.projects.list.users.list.badgesStatuses.list'])
 
     stundentList = fetchData.drop(columns=['list.projects.list.users.list.badgesStatuses', 'list.projects.list.users.list.badgesStatuses.list', "list.projects.list.users.list.badgesStatuses.list.progress", "list.projects.list.name", "list.projects.list.users.list.badgesStatuses.list.badgeClass.name"])
-    stundentList = stundentList[~stundentList.duplicated('list.projects.list.users.list.name')]
+    studentNames = fetchData["list.projects.list.users.list.name"].unique()
+    tempdf = fetchData.drop_duplicates(subset=['list.projects.list.users.list.name'])
+    tempdf['list.projects.list.users.list.email'].replace(r'^\s*$', "Empty", regex=True)
+    studentEmails = tempdf["list.projects.list.users.list.email"]
+    data = {'student.name': studentNames, 'student.email': studentEmails, 'project.detaisl': StudentPageOverview}
+    completeStudentInfoList = pd.DataFrame(data=data)
+
     # studentHead = stundentList.head()
 
     loggedInUser = request.cookies.get("username")
     
-    return render_template('students.html', protected=False, students=stundentList, current_user = loggedInUser)
+    return render_template('students.html', protected=False, students=completeStudentInfoList, current_user = loggedInUser)
 
 
 
