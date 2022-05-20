@@ -9,6 +9,6 @@ $(document).ready(function () {
     console.log(name);
     name = name.replace("%20", "");
     name = name.replace(" ", "");
-    window.location.replace("http://127.0.0.1:5000/detail/" + name);
+    window.location.replace("http://studenttracking.xyz/detail/" + name);
   });
 });
