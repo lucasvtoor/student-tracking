@@ -1,6 +1,5 @@
 import pandas as pd
 from flask import render_template, request, make_response, redirect, url_for
-from sympy import re
 from app import app, fetchData
 from app.static.py.badgecraft import getId, login, getUsername, projectDetails, getbadgecount, getStudentProgress, StudentPageOverview
 
