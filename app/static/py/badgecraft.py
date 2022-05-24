@@ -81,7 +81,7 @@ class BadgeCraft:
         request = requests.post(self.url, json={"query": query}, cookies=token)
         return request.json()["data"]["organisations"]["list"][0]["projects"]["total"]
 
-    def get_user_amount(self,token):
+    def get_user_amount(self, token):
         query = """
       query {
       organisations (q:"Metis Montessori Lyceum - Coderclass"){
@@ -230,6 +230,6 @@ class BadgeCraft:
             self.projectDetails.append(self.getProjectStatus(df, project))
 
         FETCHED_DATA = df
-        return FETCHED_DATA
+        self.FETCHED_DATA = FETCHED_DATA
 
 # fetch data from badgecraft

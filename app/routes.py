@@ -160,7 +160,7 @@ def account():
     if res["success"]:
         token = res["token"]
         userid = badgecraft.getId({"a": token})
-        username = badgecraft.getUsername({"a": token})
+        username = badgecraft.getUserName({"a": token})
 
         # redirect after login
         resp = make_response(redirect(url_for("overview")))

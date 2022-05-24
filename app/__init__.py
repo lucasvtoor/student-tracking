@@ -16,6 +16,8 @@ def scheduled():
 
 
 scheduler = APScheduler()
-scheduler.add_job(id='Fetches Data from Badgecraft', func=scheduled, trigger='interval', seconds=600)
+scheduler.add_job(id='Fetches Data from Badgecraft', func=scheduled, trigger='interval', seconds=1800)
 scheduler.start()
 badgecraft = BadgeCraft()
+badgecraft.fetch(os.environ.get('TOKEN'))
+from . import routes
