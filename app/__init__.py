@@ -5,7 +5,7 @@ from app.static.py.badgecraft import fetch, TOKEN
 app = Flask(__name__)
 fetchData = fetch()
 
-from . import routes, util
+from . import routes
 
 
 @app.cli.command("scheduled")
