@@ -3,16 +3,10 @@ from flask import Flask
 from app.static.py.badgecraft import fetch, TOKEN
 
 app = Flask(__name__)
-fetchData = fetch()
+# fetchData = fetch()
 
-from . import routes
+from . import routes, commands
 
+print("starting")
 
-@app.cli.command("scheduled")
-@click.option('--token')
-def scheduled(token):
-    print(token)
-    fetch(token)
-
-
-app.cli.add_command(scheduled)
+app.cli.add_command(commands.scheduled)

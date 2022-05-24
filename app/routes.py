@@ -1,12 +1,11 @@
 import pandas as pd
 from flask import render_template, request, make_response, redirect, url_for
-from app import app, fetchData
+from app import app
 from app.static.py.badgecraft import getId, login, getUsername, projectDetails, getbadgecount, getStudentProgress, \
-    StudentPageOverview
+    StudentPageOverview,FETCHED_DATA
 
 
 # TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
-# FETCHED_DATA = fetch(TOKEN)
 
 
 # base application route
@@ -21,9 +20,9 @@ def index():
 def overview():
     # instantiate needed var for overview page
     loggedInUser = request.cookies.get("username")
-    studentCount = fetchData["list.projects.list.users.list.name"].unique()
-    studentList = fetchData["list.projects.list.users.list.name"].unique()
-    projectList = fetchData["list.projects.list.name"].unique()
+    studentCount = FETCHED_DATA["list.projects.list.users.list.name"].unique()
+    studentList = FETCHED_DATA["list.projects.list.users.list.name"].unique()
+    projectList = FETCHED_DATA["list.projects.list.name"].unique()
 
     projectInfo = {"projectName": projectList, "projectStatus": projectDetails}
     projectInfoDf = pd.DataFrame(data=projectInfo)
@@ -33,7 +32,7 @@ def overview():
 
     # calculate average badge count per student
     for student in studentList:
-        badgecount = getbadgecount(fetchData, student)
+        badgecount = getbadgecount(FETCHED_DATA, student)
         if (badgecount < 12):
             belowAverageCount + 1
         totalBadgeCount += badgecount
@@ -58,7 +57,7 @@ def helppage():
 # Detail rout
 @app.route('/detail/<name>')
 def detail(name):
-    studentData = getStudentProgress(fetchData, name)
+    studentData = getStudentProgress(FETCHED_DATA, name)
     loggedInUser = request.cookies.get("username")
 
     return render_template('detail.html', protected=False, current_user=loggedInUser, student_data=studentData,
@@ -68,8 +67,8 @@ def detail(name):
 # students route
 @app.route('/students')
 def users():
-    studentNames = fetchData["list.projects.list.users.list.name"].unique()
-    tempdf = fetchData.drop_duplicates(subset=['list.projects.list.users.list.name'])
+    studentNames = FETCHED_DATA["list.projects.list.users.list.name"].unique()
+    tempdf = FETCHED_DATA.drop_duplicates(subset=['list.projects.list.users.list.name'])
     tempdf['list.projects.list.users.list.email'].replace(r'^\s*$', "Empty", regex=True)
     studentEmails = tempdf["list.projects.list.users.list.email"]
     data = {'student.name': studentNames, 'student.email': studentEmails, 'project.details': StudentPageOverview}
