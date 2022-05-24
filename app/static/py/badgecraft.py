@@ -1,7 +1,7 @@
 import math
+import os
 import random
 import string
-from apscheduler.schedulers.background import BackgroundScheduler
 import pandas as pd
 import requests
 from app.static.py.query_cleaner import json_to_dataframe
@@ -21,7 +21,7 @@ StudentPageOverview = []
 
 
 def getUsername(token):
-  query = f"""
+    query = f"""
     query{{
   me{{
     displayName
@@ -30,13 +30,13 @@ def getUsername(token):
 
 
   """
-  result = requests.post(url, json={"query": query}, cookies=token).json()
-  print("getId::", result)
-  return result["data"]["me"]["displayName"]
+    result = requests.post(url, json={"query": query}, cookies=token).json()
+    print("getId::", result)
+    return result["data"]["me"]["displayName"]
 
 
 def getId(token):
-  query = f"""
+    query = f"""
     query{{
   me{{
     id
@@ -46,10 +46,9 @@ def getId(token):
 
 
   """
-  result = requests.post(url, json={"query": query}, cookies=token).json()
-  print("getId::", result)
-  return result["data"]["me"]["id"]
-
+    result = requests.post(url, json={"query": query}, cookies=token).json()
+    print("getId::", result)
+    return result["data"]["me"]["id"]
 
 
 def login(username, password):
@@ -151,43 +150,46 @@ def not_proud_of_this(user_offset, project_offset):
 
 # get project status per projoct
 def getProjectStatus(fetchData, projectName):
-    scoreArr = [0,0,0]
+    scoreArr = [0, 0, 0]
     studentList = fetchData["list.projects.list.users.list.name"].unique()
 
     # loop through student list
     for student in studentList:
 
-        moduleList = fetchData.loc[((fetchData["list.projects.list.name"] == projectName) & (fetchData['list.projects.list.users.list.name'] == student))]
+        moduleList = fetchData.loc[((fetchData["list.projects.list.name"] == projectName) & (
+                fetchData['list.projects.list.users.list.name'] == student))]
 
         totalModules = moduleList["list.projects.list.users.list.badgesStatuses.list.progress"].shape[0]
         modulesCompleted = (moduleList["list.projects.list.users.list.badgesStatuses.list.progress"] == 100.0).sum()
 
         # # if completed modules is equal to total, plus 1 project list (done)
-        if(modulesCompleted == totalModules and totalModules != 0):   
+        if (modulesCompleted == totalModules and totalModules != 0):
             scoreArr[2] += 1
             # if completed modules is lower than total modules but not 0, plus 1 project list (in progress)
-        if(modulesCompleted < totalModules and modulesCompleted > 0):
+        if (modulesCompleted < totalModules and modulesCompleted > 0):
             scoreArr[1] += 1
 
             # if completed modules is equal to 0, plus 1 project list (not started)
-        if(modulesCompleted == 0):
+        if (modulesCompleted == 0):
             scoreArr[0] += 1
     # return array with project status 
     return scoreArr
+
 
 # calculate badgecount per student
 def getbadgecount(data, student):
     df = data.loc[((data['list.projects.list.users.list.name'] == student))]
     df = df.drop_duplicates(subset=['list.projects.list.name'])
     badgeCount = df['list.projects.list.users.list.stats.badges'].sum()
-      
+
     return badgeCount
 
-#Detail info student
+
+# Detail info student
 # def getStudentProgress(data, student):
 #    data.drop(data.columns.difference(['list.projects.list.users.list.name','list.projects.list.name', 'list.projects.list.users.list.badgesStatuses.list.badgeClass.name', 'list.projects.list.users.list.badgesStatuses.list.progress']), 1, inplace=True)
-   
-   
+
+
 #    specificData = data.loc[((data['list.projects.list.users.list.name'] == student))]
 #    specificData["module.progress"] = np.where(specificData['list.projects.list.users.list.badgesStatuses.list.progress'] != 100.0, False, True)
 #    specificData.drop(['list.projects.list.users.list.badgesStatuses.list.progress'], 1, inplace=True)
@@ -197,32 +199,36 @@ def getbadgecount(data, student):
 
 def getStudentProgress(data, name):
     newdf = data.copy()
-    newdf.drop(newdf.columns.difference(['list.projects.list.users.list.name','list.projects.list.name', 'list.projects.list.users.list.badgesStatuses.list.badgeClass.name', 'list.projects.list.users.list.badgesStatuses.list.progress']), 1, inplace=True)
+    newdf.drop(newdf.columns.difference(['list.projects.list.users.list.name', 'list.projects.list.name',
+                                         'list.projects.list.users.list.badgesStatuses.list.badgeClass.name',
+                                         'list.projects.list.users.list.badgesStatuses.list.progress']), 1,
+               inplace=True)
     newdf.dropna(inplace=True)
-    newdf['list.projects.list.users.list.name'] = newdf['list.projects.list.users.list.name'].str.replace(" ","")
+    newdf['list.projects.list.users.list.name'] = newdf['list.projects.list.users.list.name'].str.replace(" ", "")
     specificData = newdf.loc[((newdf['list.projects.list.users.list.name'] == name))]
-    specificData["module.progress"] = np.where(specificData['list.projects.list.users.list.badgesStatuses.list.progress'] != 100.0, False, True)
+    specificData["module.progress"] = np.where(
+        specificData['list.projects.list.users.list.badgesStatuses.list.progress'] != 100.0, False, True)
     specificData.drop(['list.projects.list.users.list.badgesStatuses.list.progress'], 1, inplace=True)
-    return specificData 
-
+    return specificData
 
 
 def getstudentProjectCounts(data, student):
-    studentInfo = [0,0,0]
+    studentInfo = [0, 0, 0]
     df = data.copy()
     df = df.loc[((df['list.projects.list.users.list.name'] == student))]
     df = df.drop_duplicates(subset=['list.projects.list.name'])
     studentBadgeCount = df["list.projects.list.users.list.stats.badges"].sum()
     studentQuestsCount = df["list.projects.list.users.list.stats.quests"].sum()
     studentCertificateCount = df["list.projects.list.users.list.stats.certificates"].sum()
-    
-    studentInfo = [round(studentBadgeCount),round(studentQuestsCount),round(studentCertificateCount)]
 
-    return studentInfo  
+    studentInfo = [round(studentBadgeCount), round(studentQuestsCount), round(studentCertificateCount)]
+
+    return studentInfo
 
 
 # fetch data from badgecraft
-def fetch(token):
+
+def fetch(token=os.environ.get('TOKEN')):
     token = {"a": token}
     project_loop = math.ceil(get_project_amount(token) / QUERY_LIMIT)  # -1 because offset starts at 0
     user_loop = math.ceil(get_user_amount(token) / QUERY_LIMIT)  # -1 because offset starts at 0
@@ -244,18 +250,15 @@ def fetch(token):
     for alias in aliases:
         new_df = json_to_dataframe(tim["data"][alias])
         df = pd.concat([df, new_df])
-    
+
     studentNames = df["list.projects.list.users.list.name"].unique()
     for student in studentNames:
-      StudentPageOverview.append(getstudentProjectCounts(df, student))
-    
+        StudentPageOverview.append(getstudentProjectCounts(df, student))
 
     projectList = df["list.projects.list.name"].unique()
 
     for project in projectList:
-      projectDetails.append(getProjectStatus(df, project))
-        
+        projectDetails.append(getProjectStatus(df, project))
+
     FETCHED_DATA = df
     return FETCHED_DATA
-
-

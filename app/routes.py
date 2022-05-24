@@ -1,12 +1,12 @@
 import pandas as pd
 from flask import render_template, request, make_response, redirect, url_for
 from app import app, fetchData
-from app.static.py.badgecraft import getId, login, getUsername, projectDetails, getbadgecount, getStudentProgress, StudentPageOverview
+from app.static.py.badgecraft import getId, login, getUsername, projectDetails, getbadgecount, getStudentProgress, \
+    StudentPageOverview
 
 
 # TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
 # FETCHED_DATA = fetch(TOKEN)
-
 
 
 # base application route
@@ -18,8 +18,6 @@ def index():
 
 # overview route
 @app.route('/overview')
-
-
 def overview():
     # instantiate needed var for overview page
     loggedInUser = request.cookies.get("username")
@@ -28,8 +26,7 @@ def overview():
     projectList = fetchData["list.projects.list.name"].unique()
 
     projectInfo = {"projectName": projectList, "projectStatus": projectDetails}
-    projectInfoDf = pd.DataFrame(data=projectInfo) 
-
+    projectInfoDf = pd.DataFrame(data=projectInfo)
 
     totalBadgeCount = 0
     belowAverageCount = 0
@@ -37,40 +34,40 @@ def overview():
     # calculate average badge count per student
     for student in studentList:
         badgecount = getbadgecount(fetchData, student)
-        if(badgecount < 12):
-            belowAverageCount+1
+        if (badgecount < 12):
+            belowAverageCount + 1
         totalBadgeCount += badgecount
 
-    averageBadgeCount = round(totalBadgeCount/ len(studentCount))
+    averageBadgeCount = round(totalBadgeCount / len(studentCount))
 
     # projectInfoDf.head()
 
     # render templates with vars
-    return render_template('overview.html', protected=False, student_count = len(studentCount), 
-    current_user = loggedInUser, number_badges = round(totalBadgeCount), project_info = projectInfoDf,
-    average_badgecount = averageBadgeCount, below_average_count = belowAverageCount)
+    return render_template('overview.html', protected=False, student_count=len(studentCount),
+                           current_user=loggedInUser, number_badges=round(totalBadgeCount), project_info=projectInfoDf,
+                           average_badgecount=averageBadgeCount, below_average_count=belowAverageCount)
 
 
 # helppage route
 @app.route('/helppage')
 def helppage():
     loggedInUser = request.cookies.get("username")
-    return render_template('helppage.html', protected=False, current_user = loggedInUser)
+    return render_template('helppage.html', protected=False, current_user=loggedInUser)
 
 
 # Detail rout
 @app.route('/detail/<name>')
 def detail(name):
-   
-    studentData = getStudentProgress(fetchData,name)
+    studentData = getStudentProgress(fetchData, name)
     loggedInUser = request.cookies.get("username")
 
-    return render_template('detail.html',protected=False, current_user = loggedInUser, student_data = studentData, student= name)
+    return render_template('detail.html', protected=False, current_user=loggedInUser, student_data=studentData,
+                           student=name)
+
 
 # students route
 @app.route('/students')
 def users():
-
     studentNames = fetchData["list.projects.list.users.list.name"].unique()
     tempdf = fetchData.drop_duplicates(subset=['list.projects.list.users.list.name'])
     tempdf['list.projects.list.users.list.email'].replace(r'^\s*$', "Empty", regex=True)
@@ -80,38 +77,35 @@ def users():
 
     loggedInUser = request.cookies.get("username")
 
-
-
     sort = request.args.get("sort")
     if sort == "name-asc":
         studentList = completeStudentInfoList.sort_values(by='student.name', ascending=True)
-    
+
     elif sort == "name-desc":
         studentList = completeStudentInfoList.sort_values(by='student.name', ascending=False)
-    
+
     # elif sort == "badge-asc":
     #     studentList = completeStudentInfoList.sort_values(by='project.details'[0], ascending=True)
 
     # elif sort == "badge-desc":
     #     studentList = completeStudentInfoList.sort_values(by='project.details'[0], ascending=False)
-    
+
     # elif sort == "quest-asc":
     #     studentList = completeStudentInfoList.sort_values(by='project.details'[1], ascending=True)
-    
+
     # elif sort == "quest-desc":
     #     studentList = completeStudentInfoList.sort_values(by='project.details'[1], ascending=False)
-    
+
     # elif sort == "qual-asc":
     #     studentList = completeStudentInfoList.sort_values(by='project.details'[2], ascending=True)
-    
+
     # elif sort == "qual-desc":
     #     studentList = completeStudentInfoList.sort_values(by='project.details'[2],  ascending=False)
     else:
         # if `sort` is none of the above, default to showing raw list
-        studentList = completeStudentInfoList 
-    
-    return render_template('students.html', protected=False, students=studentList, current_user = loggedInUser)
+        studentList = completeStudentInfoList
 
+    return render_template('students.html', protected=False, students=studentList, current_user=loggedInUser)
 
 
 # classes route
@@ -153,7 +147,8 @@ def classes():
     total = [row[2] for row in data]
 
     loggedInUser = request.cookies.get("username")
-    return render_template('classes.html', classes=classes, labels=labels, today=today, total=total, protected=False, current_user = loggedInUser)
+    return render_template('classes.html', classes=classes, labels=labels, today=today, total=total, protected=False,
+                           current_user=loggedInUser)
 
 
 @app.route('/account', methods=['POST'])
@@ -165,9 +160,8 @@ def account():
     print(res)
     if res["success"]:
         token = res["token"]
-        id = getId({"a":token})
-        username = getUsername({"a":token})
-
+        id = getId({"a": token})
+        username = getUsername({"a": token})
 
         # redirect after login
         resp = make_response(redirect(url_for("overview")))
@@ -180,5 +174,3 @@ def account():
 
     else:
         return """{"response":400}"""
-
-
