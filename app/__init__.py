@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_apscheduler import APScheduler
 from app.static.py.badgecraft import BadgeCraft
@@ -5,7 +7,8 @@ from app.static.py.badgecraft import BadgeCraft
 app = Flask(__name__)
 
 
-def scheduled(token):
+def scheduled():
+    token = os.environ.get('TOKEN')
     badgecraft.fetched_amount = badgecraft.fetched_amount + 1
     print(badgecraft.fetched_amount)
 
