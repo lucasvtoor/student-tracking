@@ -12,6 +12,7 @@ import numpy as np
 
 class BadgeCraft:
     def __init__(self):
+        self.fetched_amount = 0
         self.USERNAME = ""
         self.PASSWORD = ""
         self.url = 'https://www.badgecraft.eu/api/graphql'

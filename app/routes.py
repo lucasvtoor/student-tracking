@@ -41,7 +41,8 @@ def overview():
     # projectInfoDf.head()
 
     # render templates with vars
-    return render_template('overview.html', protected=False, student_count=len(studentCount),
+    return render_template('overview.html', fetch_amount=badgecraft.fetched_amount, protected=False,
+                           student_count=len(studentCount),
                            current_user=loggedInUser, number_badges=round(totalBadgeCount), project_info=projectInfoDf,
                            average_badgecount=averageBadgeCount, below_average_count=belowAverageCount)
 
