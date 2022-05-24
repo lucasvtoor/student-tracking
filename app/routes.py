@@ -1,7 +1,6 @@
 import pandas as pd
 from flask import render_template, request, make_response, redirect, url_for
-from app import app
-from app import badgecraft
+from app import app, badgecraft
 
 
 # TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"

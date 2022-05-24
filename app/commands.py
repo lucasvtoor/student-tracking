@@ -9,3 +9,5 @@ def scheduled(token):
     print(badgecraft.fetched_amount)
 
     badgecraft.fetch(token)
+
+
