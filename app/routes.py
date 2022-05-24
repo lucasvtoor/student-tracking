@@ -1,8 +1,7 @@
 import pandas as pd
 from flask import render_template, request, make_response, redirect, url_for
 from app import app
-from app.static.py.badgecraft import getId, login, getUsername, projectDetails, getbadgecount, getStudentProgress, \
-    StudentPageOverview,FETCHED_DATA
+from app import badgecraft
 
 
 # TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
@@ -20,11 +19,11 @@ def index():
 def overview():
     # instantiate needed var for overview page
     loggedInUser = request.cookies.get("username")
-    studentCount = FETCHED_DATA["list.projects.list.users.list.name"].unique()
-    studentList = FETCHED_DATA["list.projects.list.users.list.name"].unique()
-    projectList = FETCHED_DATA["list.projects.list.name"].unique()
+    studentCount = badgecraft.FETCHED_DATA["list.projects.list.users.list.name"].unique()
+    studentList = badgecraft.FETCHED_DATA["list.projects.list.users.list.name"].unique()
+    projectList = badgecraft.FETCHED_DATA["list.projects.list.name"].unique()
 
-    projectInfo = {"projectName": projectList, "projectStatus": projectDetails}
+    projectInfo = {"projectName": projectList, "projectStatus": badgecraft.projectDetails}
     projectInfoDf = pd.DataFrame(data=projectInfo)
 
     totalBadgeCount = 0
@@ -32,9 +31,9 @@ def overview():
 
     # calculate average badge count per student
     for student in studentList:
-        badgecount = getbadgecount(FETCHED_DATA, student)
-        if (badgecount < 12):
-            belowAverageCount + 1
+        badgecount = badgecraft.getbadgecount(badgecraft.FETCHED_DATA, student)
+        if badgecount < 12:
+            belowAverageCount = belowAverageCount + 1
         totalBadgeCount += badgecount
 
     averageBadgeCount = round(totalBadgeCount / len(studentCount))
@@ -57,7 +56,7 @@ def helppage():
 # Detail rout
 @app.route('/detail/<name>')
 def detail(name):
-    studentData = getStudentProgress(FETCHED_DATA, name)
+    studentData = badgecraft.getStudentProgress(badgecraft.FETCHED_DATA, name)
     loggedInUser = request.cookies.get("username")
 
     return render_template('detail.html', protected=False, current_user=loggedInUser, student_data=studentData,
@@ -67,11 +66,12 @@ def detail(name):
 # students route
 @app.route('/students')
 def users():
-    studentNames = FETCHED_DATA["list.projects.list.users.list.name"].unique()
-    tempdf = FETCHED_DATA.drop_duplicates(subset=['list.projects.list.users.list.name'])
+    studentNames = badgecraft.FETCHED_DATA["list.projects.list.users.list.name"].unique()
+    tempdf = badgecraft.FETCHED_DATA.drop_duplicates(subset=['list.projects.list.users.list.name'])
     tempdf['list.projects.list.users.list.email'].replace(r'^\s*$', "Empty", regex=True)
     studentEmails = tempdf["list.projects.list.users.list.email"]
-    data = {'student.name': studentNames, 'student.email': studentEmails, 'project.details': StudentPageOverview}
+    data = {'student.name': studentNames, 'student.email': studentEmails,
+            'project.details': badgecraft.StudentPageOverview}
     completeStudentInfoList = pd.DataFrame(data=data)
 
     loggedInUser = request.cookies.get("username")
@@ -155,19 +155,19 @@ def account():
     username = request.form['username']
     password = request.form['password']
 
-    res = login(username, password)
+    res = badgecraft.login(username, password)
     print(res)
     if res["success"]:
         token = res["token"]
-        id = getId({"a": token})
-        username = getUsername({"a": token})
+        userid = badgecraft.getId({"a": token})
+        username = badgecraft.getUsername({"a": token})
 
         # redirect after login
         resp = make_response(redirect(url_for("overview")))
         # set cookies with current user info
         resp.set_cookie('username', username)
         resp.set_cookie('token', token)
-        resp.set_cookie("userId", id)
+        resp.set_cookie("userId", userid)
 
         return resp
 
