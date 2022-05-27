@@ -185,17 +185,17 @@ class BadgeCraft:
         return specificData
 
     def getstudentProjectCounts(self, data, student):
-        studentInfo = [0, 0, 0]
-        df = data.copy()
-        df = df.loc[((df['list.projects.list.users.list.name'] == student))]
-        df = df.drop_duplicates(subset=['list.projects.list.name'])
-        studentBadgeCount = df["list.projects.list.users.list.stats.badges"].sum()
-        studentQuestsCount = df["list.projects.list.users.list.stats.quests"].sum()
-        studentCertificateCount = df["list.projects.list.users.list.stats.certificates"].sum()
+      df = data.copy()
+      df = df.loc[((df['list.projects.list.users.list.name'] == student))]
+      df = df.drop_duplicates(subset=['list.projects.list.name'])
 
-        studentInfo = [round(studentBadgeCount), round(studentQuestsCount), round(studentCertificateCount)]
+      studentBadgeCount = df["list.projects.list.users.list.stats.badges"].sum()
+      studentQuestsCount = df["list.projects.list.users.list.stats.quests"].sum()
+      studentCertificateCount = df["list.projects.list.users.list.stats.certificates"].sum()
+      
+      studentInfo = {"student.name": student, "student.badge": round(studentBadgeCount),"student.quest":round(studentQuestsCount),"student.certificate": round(studentCertificateCount)}
 
-        return studentInfo
+      return studentInfo
 
     def fetch(self, token=os.environ.get('TOKEN')):
         token = {"a": token}

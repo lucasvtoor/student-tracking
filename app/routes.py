@@ -66,45 +66,43 @@ def detail(name):
 # students route
 @app.route('/students')
 def users():
-    studentNames = badgecraft.FETCHED_DATA["list.projects.list.users.list.name"].unique()
-    tempdf = badgecraft.FETCHED_DATA.drop_duplicates(subset=['list.projects.list.users.list.name'])
-    tempdf['list.projects.list.users.list.email'].replace(r'^\s*$', "Empty", regex=True)
-    studentEmails = tempdf["list.projects.list.users.list.email"]
-    data = {'student.name': studentNames, 'student.email': studentEmails,
-            'project.details': badgecraft.StudentPageOverview}
-    completeStudentInfoList = pd.DataFrame(data=data)
+    studentList = badgecraft.FETCHED_DATA["list.projects.list.users.list.name"].unique()
+    infoArray = []
+    for student in studentList:
+        infoArray.append(badgecraft.getstudentProjectCounts(badgecraft.FETCHED_DATA, student))
 
+    studentInfo = pd.DataFrame(data=infoArray)
     loggedInUser = request.cookies.get("username")
 
     sort = request.args.get("sort")
     if sort == "name-asc":
-        studentList = completeStudentInfoList.sort_values(by='student.name', ascending=True)
+        sortingList = studentInfo.sort_values(by='student.name', ascending=True)
 
     elif sort == "name-desc":
-        studentList = completeStudentInfoList.sort_values(by='student.name', ascending=False)
+        sortingList = studentInfo.sort_values(by='student.name', ascending=False)
 
-    # elif sort == "badge-asc":
-    #     studentList = completeStudentInfoList.sort_values(by='project.details'[0], ascending=True)
+    elif sort == "badge-asc":
+        sortingList = studentInfo.sort_values(by='student.badge', ascending=True)
 
-    # elif sort == "badge-desc":
-    #     studentList = completeStudentInfoList.sort_values(by='project.details'[0], ascending=False)
+    elif sort == "badge-desc":
+        sortingList = studentInfo.sort_values(by='student.badge', ascending=False)
 
-    # elif sort == "quest-asc":
-    #     studentList = completeStudentInfoList.sort_values(by='project.details'[1], ascending=True)
+    elif sort == "quest-asc":
+        sortingList = studentInfo.sort_values(by='student.quest', ascending=True)
 
-    # elif sort == "quest-desc":
-    #     studentList = completeStudentInfoList.sort_values(by='project.details'[1], ascending=False)
+    elif sort == "quest-desc":
+        sortingList = studentInfo.sort_values(by='student.quest', ascending=False)
 
-    # elif sort == "qual-asc":
-    #     studentList = completeStudentInfoList.sort_values(by='project.details'[2], ascending=True)
+    elif sort == "cert-asc":
+        sortingList = studentInfo.sort_values(by='student.certificate', ascending=True)
 
-    # elif sort == "qual-desc":
-    #     studentList = completeStudentInfoList.sort_values(by='project.details'[2],  ascending=False)
+    elif sort == "cert-desc":
+        sortingList = studentInfo.sort_values(by='student.certificate',  ascending=False)
     else:
         # if `sort` is none of the above, default to showing raw list
-        studentList = completeStudentInfoList
+        sortingList = studentInfo
 
-    return render_template('students.html', protected=False, students=studentList, current_user=loggedInUser)
+    return render_template('students.html', protected=False, students=sortingList, current_user=loggedInUser)
 
 
 # classes route
