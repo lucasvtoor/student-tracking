@@ -1,6 +1,9 @@
 {% extends "base.html" %} {% block head%}
 
-<link rel="stylesheet" href="{{ url_for('static',filename='css/students.css') }}" />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static',filename='css/students.css') }}"
+/>
 
 {% endblock %} {%block content%}
 
@@ -16,8 +19,14 @@
   </div>
   <div class="mb-2 d-flex justify-content-between align-items-center"></div>
   <div class="position-relative col">
-    <span class="position-absolute search"><i class="fa fa-search"></i></span>
-    <input class="form-control" placeholder="Search by name" />
+    <form>
+      <span class="position-absolute search"><i class="fa fa-search"></i></span>
+      <input
+        class="form-control"
+        name="searchTerm"
+        placeholder="Search by name or date"
+      />
+    </form>
   </div>
   <div class="table-responsive">
     <table class="table table-responsive table-borderless user-table">
@@ -33,34 +42,66 @@
         <tr>
           <form>
             <th scope="col" width="25" style="color: white">
-              <button class="btn btn-secondary btn-sm" name="sort" value="name-asc">
+              <button
+                class="btn btn-secondary btn-sm"
+                name="sort"
+                value="name-asc"
+              >
                 Names asc
               </button>
-              <button class="btn btn-secondary btn-sm" name="sort" value="name-desc">
+              <button
+                class="btn btn-secondary btn-sm"
+                name="sort"
+                value="name-desc"
+              >
                 Names desc
               </button>
             </th>
             <th scope="col" width="25%" style="color: white">
-              <button class="btn btn-secondary btn-sm" name="sort" value="badge-asc">
+              <button
+                class="btn btn-secondary btn-sm"
+                name="sort"
+                value="badge-asc"
+              >
                 Badges asc
               </button>
-              <button class="btn btn-secondary btn-sm" name="sort" value="badge-desc">
+              <button
+                class="btn btn-secondary btn-sm"
+                name="sort"
+                value="badge-desc"
+              >
                 Badges desc
               </button>
             </th>
             <th scope="col" width="25%" style="color: white">
-              <button class="btn btn-secondary btn-sm" name="sort" value="quest-asc">
+              <button
+                class="btn btn-secondary btn-sm"
+                name="sort"
+                value="quest-asc"
+              >
                 Quests asc
               </button>
-              <button class="btn btn-secondary btn-sm" name="sort" value="quest-desc">
+              <button
+                class="btn btn-secondary btn-sm"
+                name="sort"
+                value="quest-desc"
+              >
                 Quests desc
               </button>
             </th>
             <th scope="col" width="25%" style="color: white">
-              <button class="btn btn-secondary btn-sm" name="sort" value="cert-asc">
+              <button
+                class="btn btn-secondary btn-sm"
+                name="sort"
+                value="cert-asc"
+              >
                 Certificates asc
               </button>
-              <button class="btn btn-secondary btn-sm" name="sort" value="cert-desc">
+              <button
+                class="btn btn-secondary btn-sm"
+                name="sort"
+                value="cert-desc"
+              >
                 Certificates desc
               </button>
             </th>
@@ -80,9 +121,7 @@
       </tbody>
     </table>
   </div>
-  <div>
-    {{pagination.links}}
-  </div>
+  <div>{{pagination.links}}</div>
   <script src="{{ url_for('static',filename='js/students.js') }}"></script>
 </div>
 
