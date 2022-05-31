@@ -20,12 +20,12 @@
                 <img id="userImage" src="{{ url_for('static',filename='img/usericon.png') }}" alt="" />
             </div>
 
-
             <div class="col mt-4">
                 <h1 id="nameField"></h1>
                 <br>
-                <h6 id="emailField">Email: </h6>
+                <h6>Email: {{ student_data['list.projects.list.users.list.email'] | first }}</h6>
             </div>
+
         </div>
     </div>
     <div class="row exc-row mt-5">

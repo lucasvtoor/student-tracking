@@ -1,6 +1,7 @@
 import pandas as pd
 from flask import render_template, request, make_response, redirect, url_for
 from app import app, badgecraft
+from flask_paginate import Pagination,get_page_args
 
 
 # TOKEN = "f30e9f7e-5f76-4119-8974-8a1b2ea164e3"
@@ -53,25 +54,34 @@ def helppage():
     return render_template('helppage.html', protected=False, current_user=loggedInUser)
 
 
+
+
+
+studentList = badgecraft.FETCHED_DATA["list.projects.list.users.list.name"].unique()
+infoArray = []
+for student in studentList:
+    infoArray.append(badgecraft.getstudentProjectCounts(badgecraft.FETCHED_DATA, student))
+
+studentInfo = pd.DataFrame(data=infoArray)
+
 # Detail rout
 @app.route('/detail/<name>')
 def detail(name):
     studentData = badgecraft.getStudentProgress(badgecraft.FETCHED_DATA, name)
     loggedInUser = request.cookies.get("username")
 
-    return render_template('detail.html', protected=False, current_user=loggedInUser, student_data=studentData,
-                           student=name)
+
+    return render_template('detail.html', protected=False, current_user=loggedInUser, student_data=studentData, name=name)
+
+
+def get_users(offset=0,per_page=20,df=studentInfo):
+    return df[offset: offset+per_page]
 
 
 # students route
 @app.route('/students')
 def users():
-    studentList = badgecraft.FETCHED_DATA["list.projects.list.users.list.name"].unique()
-    infoArray = []
-    for student in studentList:
-        infoArray.append(badgecraft.getstudentProjectCounts(badgecraft.FETCHED_DATA, student))
-
-    studentInfo = pd.DataFrame(data=infoArray)
+    
     loggedInUser = request.cookies.get("username")
 
     sort = request.args.get("sort")
@@ -102,7 +112,15 @@ def users():
         # if `sort` is none of the above, default to showing raw list
         sortingList = studentInfo
 
-    return render_template('students.html', protected=False, students=sortingList, current_user=loggedInUser)
+    page,per_page,offset = get_page_args(page_parameter="page",per_page_parameter="per_page")
+
+    total = len(studentInfo)
+
+    pagination_users = get_users(offset=offset,per_page=per_page, df=sortingList)
+
+    pagination = Pagination(page=page,per_page=per_page,total=total, css_framework='bootstrap5')
+
+    return render_template('students.html', protected=False, current_user=loggedInUser, students=pagination_users,page=page,per_page=per_page,pagination=pagination)
 
 
 # classes route

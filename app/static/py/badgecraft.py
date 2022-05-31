@@ -174,7 +174,8 @@ class BadgeCraft:
         newdf = data.copy()
         newdf.drop(newdf.columns.difference(['list.projects.list.users.list.name', 'list.projects.list.name',
                                              'list.projects.list.users.list.badgesStatuses.list.badgeClass.name',
-                                             'list.projects.list.users.list.badgesStatuses.list.progress']), 1,
+                                             'list.projects.list.users.list.badgesStatuses.list.progress',
+                                             'list.projects.list.users.list.email']), 1,
                    inplace=True)
         newdf.dropna(inplace=True)
         newdf['list.projects.list.users.list.name'] = newdf['list.projects.list.users.list.name'].str.replace(" ", "")
