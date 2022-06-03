@@ -38,12 +38,17 @@ def overview():
 
     averageBadgeCount = round(totalBadgeCount / len(studentCount))
 
-    # projectInfoDf.head()
+    # search projects
+    searchTerm = request.args.get("searchTerm")
+    if(searchTerm != None):
+        sortingList = projectInfoDf[projectInfoDf['projectName'].str.contains(searchTerm, case=False, na=False)]
+    else:
+        sortingList = projectInfoDf
 
     # render templates with vars
     return render_template('overview.html', fetch_amount=badgecraft.fetched_amount, protected=False,
                            student_count=len(studentCount),
-                           current_user=loggedInUser, number_badges=round(totalBadgeCount), project_info=projectInfoDf,
+                           current_user=loggedInUser, number_badges=round(totalBadgeCount), project_info=sortingList,
                            average_badgecount=averageBadgeCount, below_average_count=belowAverageCount)
 
 
@@ -111,6 +116,11 @@ def users():
     else:
         # if `sort` is none of the above, default to showing raw list
         sortingList = studentInfo
+
+    # search students
+    searchTerm = request.args.get("searchTerm")
+    if(searchTerm != None):
+        sortingList = studentInfo[studentInfo['student.name'].str.contains(searchTerm, case=False, na=False)]
 
     page,per_page,offset = get_page_args(page_parameter="page",per_page_parameter="per_page")
 

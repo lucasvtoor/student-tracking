@@ -19,13 +19,19 @@
   </div>
   <div class="mb-2 d-flex justify-content-between align-items-center"></div>
   <div class="position-relative col">
-    <form>
+    <form style="display: flex">
       <span class="position-absolute search"><i class="fa fa-search"></i></span>
       <input
         class="form-control"
         name="searchTerm"
-        placeholder="Search by name or date"
+        placeholder="Search by name"
+        style="width: 100%"
       />
+      {% if searchTerm != "" %}
+      <span class="badge badge-secondary">{{ searchTerm }}</span>
+      {% endif %}
+
+      <button name="" class="btn btn-secondary">Reset sort</button>
     </form>
   </div>
   <div class="table-responsive">

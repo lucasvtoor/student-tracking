@@ -10,11 +10,6 @@ html {
   min-height: 100vh;
 }
 
-.search {
-  top: 6px;
-  left: 10px;
-}
-
 .form-control {
   border: none;
   padding-left: 32px;

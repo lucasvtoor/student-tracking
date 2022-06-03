@@ -1,11 +1,4 @@
-const labels = [
-  "class 1",
-  "class 2",
-  "class 3",
-  "class 4",
-  "class 5",
-  "class 6",
-];
+const labels = ["Team 1", "Team 2", "Team 3", "Team 4", "Team 5", "Team 6"];
 
 const data = {
   labels: labels,
