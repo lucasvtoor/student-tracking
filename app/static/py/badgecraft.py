@@ -111,6 +111,7 @@ class BadgeCraft:
               name
               users(q: "*", limit: 100 offset:%s) {
                 list {
+                  team
                   name
                   email
                   picture
