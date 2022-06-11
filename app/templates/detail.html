@@ -1,69 +1,158 @@
 {% extends "base.html" %} {% block head%}
 
-<link rel="stylesheet" href="{{ url_for('static',filename='css/detail.css') }}" />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static',filename='css/detail.css') }}"
+/>
 
 {% endblock %} {%block content%}
 <div class="container top">
-    <div class="row header top mt-2">
-        <div class="header margin-temp">
-            <h3>Detail</h3>
-            <div id="currentUser">
-                <img src="{{ url_for('static',filename='img/usericon.png') }}" alt="" />
-                <h5>{{ current_user }}</h5>
-            </div>
-        </div>
+  <div class="row header top mt-2">
+    <div class="header margin-temp">
+      <h3>Detail</h3>
+      <div id="currentUser">
+        <img src="{{ url_for('static',filename='img/usericon.png') }}" alt="" />
+        <h5>{{ current_user }}</h5>
+      </div>
     </div>
+  </div>
 
-    <div class="card d-flex mt-2">
-        <div class="row">
-            <div class="col m-4">
-                <img id="userImage" src="{{ url_for('static',filename='img/usericon.png') }}" alt="" />
-            </div>
+  <div class="card d-flex mt-2">
+    <div class="row">
+      <div class="col m-4">
+        <img
+          id="userImage"
+          src="{{ url_for('static',filename='img/usericon.png') }}"
+          alt=""
+        />
+      </div>
 
-            <div class="col mt-4">
-                <h1 id="nameField"></h1>
-                <br>
-                <h6>Email: {{ student_data['list.projects.list.users.list.email'] | first }}</h6>
-            </div>
-
-        </div>
+      <div class="col mt-4">
+        <h1 id="nameField"></h1>
+        <br />
+        <h6>
+          Email: {{ student_data['list.projects.list.users.list.email'] | first
+          }}
+        </h6>
+      </div>
     </div>
-    <div class="row exc-row mt-5">
-        <div class="header">
-            <div>
-                <h3>Projects</h3>
-            </div>
-            <div class="searchbar-div">
-                <input type="text" class="col-md-2 searchbar bg-white border" placeholder="Search" />
-            </div>
-        </div>
-        <div class="col">
-            <table class="table">
-                <thead>
-                    <tr class="head-col">
-                        <th scope="col">Project title</th>
-                        <th class="col-top" scope="col">Module title</th>
-                        <th class="col-top" scope="col">Module completed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for key,value in student_data.iterrows() %}
-                    <tr>
-                        <th scope="row">
-                            <div class="excersize-info">
-                                <div class="text-container">
-                                    <h4>{{ value['list.projects.list.name'] }}</h4>
-                                </div>
-                            </div>
-                        </th>
-                        <td>{{ value['list.projects.list.users.list.badgesStatuses.list.badgeClass.name'] }}</td>
-                        <td>{{ value['module.progress'] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+  </div>
+  <div class="row exc-row mt-5">
+    <div class="header">
+      <div>
+        <h3>Projects</h3>
+      </div>
+      <div class="searchbar-div">
+        <form id="sort-form3">
+          {% if search_term is not none%}
+          <input
+            id="search-input3"
+            type="text"
+            name="searchTerm"
+            value="{{ search_term }}"
+            class="col-md-2 searchbar"
+            placeholder="Search by project"
+          />
+          {% else %}
+          <input
+          id="search-input3"
+          type="text"
+          name="searchTerm"
+          value="{{ '' }}"
+          class="col-md-2 searchbar"
+          placeholder="Search by project"
+        />
+          {% endif%}
+          <button type="button" onclick="resetSearch()" name="" class="btn btn-secondary">Reset</button>
+        
+      </div>
     </div>
+    <div class="col">
+      <table class="table">
+        <thead>
+          <tr class="head-col">
+            <th scope="col">Project title</th>
+            <th class="col-top" scope="col">Module title</th>
+            <th class="col-top" scope="col">Module completed</th>
+          </tr>
+        </thead>
+        <thead class="column-top">
+            <tr>
+    
+                <th scope="col" width="25" style="color: white">
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    name="sort"
+                    value="project-asc"
+                  >
+                    Project asc
+                  </button>
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    name="sort"
+                    value="project-desc"
+                  >
+                  Project desc
+                  </button>
+                </th>
+                <th scope="col" width="25%" style="color: white">
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    name="sort"
+                    value="module-asc"
+                  >
+                    Module asc
+                  </button>
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    name="sort"
+                    value="module-desc"
+                  >
+                  Module desc
+                  </button>
+                </th>
+                <th scope="col" width="25%" style="color: white">
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    name="sort"
+                    value="module-com-asc"
+                  >
+                    Module-com asc
+                  </button>
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    name="sort"
+                    value="module-com-desc"
+                  >
+                   Module-com desc
+                  </button>
+                </th>
+            </form>
+            </tr>
+          </thead>
+        <tbody>
+          {% for key,value in student_data.iterrows() %}
+          <tr>
+            <th scope="row">
+              <div class="excersize-info">
+                <div class="text-container">
+                  <h4>{{ value['list.projects.list.name'] }}</h4>
+                </div>
+              </div>
+            </th>
+            <td>
+              {{
+              value['list.projects.list.users.list.badgesStatuses.list.badgeClass.name']
+              }}
+            </td>
+            <td>{{ value['module.progress'] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div style="display: flex; justify-content: center">{{pagination.links}}</div>
 </div>
 
 <script src="{{ url_for('static',filename='js/detail.js') }}"></script>

@@ -63,15 +63,28 @@
       <div><h3>Projects</h3></div>
 
       <div class="searchbar-div">
-        <form>
+        <form id="sort-form">
+          {% if search_term is not none%}
           <input
+            id="search-input"
             type="text"
             name="searchTerm"
+            value="{{ search_term }}"
             class="col-md-2 searchbar"
             placeholder="Search by project"
           />
-          <button name="" class="btn btn-secondary">Reset sort</button>
-        </form>
+          {% else %}
+          <input
+          id="search-input"
+          type="text"
+          name="searchTerm"
+          value="{{ '' }}"
+          class="col-md-2 searchbar"
+          placeholder="Search by project"
+        />
+        {% endif%}
+          <button type="button" onclick="resetSearch()"
+           name="" value="" class="btn btn-secondary">Reset</button>
       </div>
     </div>
 
@@ -85,27 +98,90 @@
             <th class="col-top" scope="col">Done</th>
           </tr>
         </thead>
+        <thead class="column-top">
+          <tr>
+              <th scope="col" width="25" style="color: white">
+                <button
+                  class="btn btn-secondary btn-sm"
+                  name="sort"
+                  value="assignment-asc"
+                >
+                 asc
+                </button>
+                <button
+                  class="btn btn-secondary btn-sm"
+                  name="sort"
+                  value="assignment-desc"
+                >
+                 desc
+                </button>
+              </th>
+              <th scope="col" width="25%" style="color: white">
+                <button
+                  class="btn btn-secondary btn-sm"
+                  name="sort"
+                  value="not-started-asc"
+                >
+                   asc
+                </button>
+                <button
+                  class="btn btn-secondary btn-sm"
+                  name="sort"
+                  value="not-started-desc"
+                >
+                desc
+                </button>
+              </th>
+              <th scope="col" width="25%" style="color: white">
+                <button
+                  class="btn btn-secondary btn-sm"
+                  name="sort"
+                  value="in-progress-asc"
+                >
+                   asc
+                </button>
+                <button
+                  class="btn btn-secondary btn-sm"
+                  name="sort"
+                  value="in-progress-desc"
+                >
+                 desc
+                </button>
+              </th>
+              <th scope="col" width="25%" style="color: white">
+                <button
+                  class="btn btn-secondary btn-sm"
+                  name="sort"
+                  value="done-asc"
+                >
+                   asc
+                </button>
+                <button
+                  class="btn btn-secondary btn-sm"
+                  name="sort"
+                  value="done-desc"
+                >
+                  desc
+                </button>
+              </th>
+      </form>
+          </tr>
+        </thead>
         <tbody>
           {% for key,value in project_info.iterrows() %}
 
           <tr>
-            <th scope="row">
-              <div class="excersize-info">
-                <div class="text-container">
-                  <h4>{{ value['projectName'] }}</h4>
-                </div>
-              </div>
-            </th>
-
-            <td>{{ value['projectStatus'][0] }}</td>
-            <td>{{ value['projectStatus'][1] }}</td>
-            <td>{{ value['projectStatus'][2] }}</td>
+            <td><h4>{{ value['projectName'] }}</h4></td>
+            <td>{{ value['not.started'] }}</td>
+            <td>{{ value['in.progress'] }}</td>
+            <td>{{ value['done'] }}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
+  <div style="display: flex; justify-content: center">{{pagination.links}}</div>
   <script src="{{ url_for('static',filename='js/overview.js') }}"></script>
 </div>
 {%endblock%}

@@ -176,14 +176,15 @@ class BadgeCraft:
         newdf.drop(newdf.columns.difference(['list.projects.list.users.list.name', 'list.projects.list.name',
                                              'list.projects.list.users.list.badgesStatuses.list.badgeClass.name',
                                              'list.projects.list.users.list.badgesStatuses.list.progress',
-                                             'list.projects.list.users.list.email']), 1,
+                                             'list.projects.list.users.list.email']), axis=1,
                    inplace=True)
         newdf.dropna(inplace=True)
         newdf['list.projects.list.users.list.name'] = newdf['list.projects.list.users.list.name'].str.replace(" ", "")
         specificData = newdf.loc[((newdf['list.projects.list.users.list.name'] == name))]
-        specificData["module.progress"] = np.where(
-            specificData['list.projects.list.users.list.badgesStatuses.list.progress'] != 100.0, False, True)
-        specificData.drop(['list.projects.list.users.list.badgesStatuses.list.progress'], 1, inplace=True)
+        moduleProgress = specificData["list.projects.list.users.list.badgesStatuses.list.progress"] != 100.0 
+        specificData["module.progress"] = moduleProgress
+        # specificData.loc[specificData['list.projects.list.users.list.badgesStatuses.list.progress'] != 100.0, 'moduleProgress'] = False
+        # specificData.drop(['list.projects.list.users.list.badgesStatuses.list.progress'], axis=1, inplace=True)
         return specificData
 
     def getstudentProjectCounts(self, data, student):

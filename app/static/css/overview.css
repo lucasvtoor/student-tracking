@@ -63,6 +63,10 @@ html {
   align-items: center;
 }
 
+.column-top {
+  text-align: center;
+}
+
 .head-col {
   color: #9fa2b4;
 }

@@ -19,20 +19,33 @@
   </div>
   <div class="mb-2 d-flex justify-content-between align-items-center"></div>
   <div class="position-relative col">
-    <form style="display: flex">
+    <form style="display: flex" id="sort-form2">
       <span class="position-absolute search"><i class="fa fa-search"></i></span>
+      {% if search_term is not none%}
       <input
+      id="search-input2"
+      class="form-control"
+      name="searchTerm"
+      placeholder="Search by name"
+      value="{{ search_term }}"
+      style="width: 100%"
+    />
+    {% else %}
+      <input
+        id="search-input2"
         class="form-control"
         name="searchTerm"
         placeholder="Search by name"
+        value="{{ '' }}"
         style="width: 100%"
       />
+      {% endif %}
       {% if searchTerm != "" %}
       <span class="badge badge-secondary">{{ searchTerm }}</span>
       {% endif %}
 
-      <button name="" class="btn btn-secondary">Reset sort</button>
-    </form>
+      <button type="button" onclick="resetSearch()" name="" class="btn btn-secondary">Reset</button>
+
   </div>
   <div class="table-responsive">
     <table class="table table-responsive table-borderless user-table">
@@ -46,7 +59,7 @@
       </thead>
       <thead class="column-top">
         <tr>
-          <form>
+
             <th scope="col" width="25" style="color: white">
               <button
                 class="btn btn-secondary btn-sm"
@@ -111,7 +124,7 @@
                 Certificates desc
               </button>
             </th>
-          </form>
+        </form>
         </tr>
       </thead>
 
@@ -127,7 +140,7 @@
       </tbody>
     </table>
   </div>
-  <div>{{pagination.links}}</div>
+  <div style="display: flex; justify-content: center;">{{pagination.links}}</div>
   <script src="{{ url_for('static',filename='js/students.js') }}"></script>
 </div>
 

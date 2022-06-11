@@ -10,3 +10,8 @@ $(document).ready(function () {
     window.location.replace("http://127.0.0.1:5000/detail/" + name);
   });
 });
+
+function resetSearch() {
+  document.getElementById("search-input2").value = "";
+  document.getElementById("sort-form2").submit();
+}
