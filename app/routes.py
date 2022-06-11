@@ -1,5 +1,5 @@
 import pandas as pd
-from flask import render_template, request, make_response, redirect, url_for
+from flask import render_template, request, make_response, redirect, url_for, Response
 from app import app, badgecraft
 from flask_paginate import Pagination,get_page_args
 
@@ -174,6 +174,15 @@ def classes():
     loggedInUser = request.cookies.get("username")
     return render_template('classes.html', classes=classes, labels=labels, today=today, total=total, protected=False,
                            current_user=loggedInUser)
+
+@app.route('/download_student_csv')
+def get_csv():
+    downloadable_csv = badgecraft.FETCHED_DATA.to_csv(index=False)
+    return Response(
+        downloadable_csv,
+        mimetype="text/csv",
+        headers={"Content-disposition":
+                 "attachment; filename=dataStudents.csv"})
 
 
 @app.route('/account', methods=['POST'])
