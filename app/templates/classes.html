@@ -10,7 +10,7 @@
 <div class="container top">
   <div class="row header top mt-2">
     <div class="header margin-temp">
-      <h3>Classes</h3>
+      <h3>Beginner Coderclass</h3>
       <div id="currentUser">
         <img src="{{ url_for('static',filename='img/usericon.png') }}" alt="" />
         <h5>{{ current_user }}</h5>
@@ -21,18 +21,6 @@
   <div class="row d-flex justify-content-center mt-5">
     <div class="card">
       <div class="row headcolor">
-        <div class="col flex">
-          <div class="input-group m-3 w-75">
-            <input
-              type="search"
-              class="form-control rounded"
-              placeholder="Search"
-              aria-label="Search"
-              aria-describedby="search-addon"
-            />
-            <button type="button" class="btn btn-primary">search</button>
-          </div>
-        </div>
         <div class="col d-flex">
           <a href="/download_student_csv" class="btn btn-primary ms-auto m-3">Download</a>
         </div>
@@ -44,10 +32,10 @@
             <li class="list-group-item">
               <div class="row">
                 <div class="col">
-                  <h6>Class name</h6>
+                  <h6>Level</h6>
                 </div>
                 <div class="col">
-                  <h6>Number of users</h6>
+                  <h6>Aantal studenten klaar</h6>
                 </div>
               </div>
             </li>
@@ -75,7 +63,7 @@
   </div>
   <div class="row" id="graphSpacing">
     <div class="col">
-      <div class="card">
+      <div class="card" style="width: 35rem;">
         <div class="card-body">
           <canvas id="dailyBarChart" width="400" height="300"></canvas>
           <script>
@@ -86,7 +74,7 @@
                     labels: {{ labels | safe }},
             datasets: [
                 {
-                    label: 'Number of questions answered',
+                    label: 'Percentage studenten klaar met module',
                     data: {{ today | safe}},
                 backgroundColor: 'rgba(50, 144, 237, 1)'
                 }
@@ -96,33 +84,6 @@
                 responsive: false,
             }
             });
-          </script>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="card">
-        <div class="card-body">
-          <canvas id="totalBarChart" width="400" height="300"></canvas>
-          <script>
-            const setupTotalChart = document.getElementById('totalBarChart').getContext('2d');
-                        const totalChart = new Chart(setupTotalChart, {
-                            type: 'bar',
-                            data: {
-                                labels: {{ labels | safe }},
-                        datasets: [
-                            {
-                                label: 'Number of questions answered',
-                                data: {{ total | safe}},
-                            backgroundColor: 'rgba(50, 144, 237, 1)'
-                            }
-                        ]
-                            },
-                        options: {
-                            responsive: false
-                        }
-                        });
           </script>
         </div>
       </div>
