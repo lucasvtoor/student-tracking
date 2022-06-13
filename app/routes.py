@@ -263,10 +263,10 @@ def classes():
 
 @app.route('/download_student_csv')
 def get_csv():
-    downloadable_csv = badgecraft.FETCHED_DATA.to_csv(index=False)
+    downloadable_csv = badgecraft.FETCHED_DATA
     downloadable_csv = downloadable_csv.rename(columns={"list.projects.list.name": "Project names","list.projects.list.users.list.team": "Teams","list.projects.list.users.list.name": "Names", "list.projects.list.users.list.email": "Emails", "list.projects.list.users.list.picture": "Pictures", "list.projects.list.users.list.stats.badges": "Badges", "list.projects.list.users.list.stats.quests": "Quests","list.projects.list.users.list.stats.certificates": "Certificates", "list.projects.list.users.list.badgesStatuses.list.status": "Status","list.projects.list.users.list.badgesStatuses.list.progress": "Progress", "list.projects.list.users.list.badgesStatuses.list.badgeClass.name": "Module"})
     downloadable_csv = downloadable_csv.drop(columns=['list.projects.list.users.list.badgesStatuses.list', 'list.projects.list.users.list.badgesStatuses'])
-
+    downloadable_csv =downloadable_csv.to_csv(index=False)
     return Response(
         downloadable_csv,
         mimetype="text/csv",
