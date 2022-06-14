@@ -38,6 +38,8 @@ if [ -n "$(command -v apt-get)" ]; then
 
   pip install gunicorn flask
 
+  pip install requests
+
   log_output LOG_TYPE_INFO "Generating token and placing it in environmental variable"
   export LUCAS=$(python3 willem.py)
 
