@@ -47,7 +47,7 @@ class BadgeCraft:
 
 
       """
-        result = requests.post(self.url, json={"query": query}, cookies=token).json()
+        result = requests.post(self.url, json={"query": query}, cookies={"a": token}).json()
         print("getId::", result)
         return result["data"]["me"]["id"]
 
@@ -62,7 +62,6 @@ class BadgeCraft:
             }}
         """
         result = requests.post(self.url, json={"query": query}).json()
-        TOKEN = result["data"]["passwordAuthorize"]["token"]
         return result["data"]["passwordAuthorize"]
 
     def get_project_amount(self, token):
@@ -101,7 +100,7 @@ class BadgeCraft:
         result_str = ''.join(random.choice(letters) for i in range(8))
         return result_str
 
-    def not_proud_of_this(self, user_offset, project_offset):
+    def get_records(self, user_offset, project_offset):
         alias = self.create_alias()
         return ("""
          %s :organisations(q: "Metis Montessori Lyceum - Coderclass", limit: 20) {
@@ -181,24 +180,26 @@ class BadgeCraft:
         newdf.dropna(inplace=True)
         newdf['list.projects.list.users.list.name'] = newdf['list.projects.list.users.list.name'].str.replace(" ", "")
         specificData = newdf.loc[((newdf['list.projects.list.users.list.name'] == name))]
-        moduleProgress = specificData["list.projects.list.users.list.badgesStatuses.list.progress"] != 100.0 
+        moduleProgress = specificData["list.projects.list.users.list.badgesStatuses.list.progress"] != 100.0
         specificData["module.progress"] = moduleProgress
         # specificData.loc[specificData['list.projects.list.users.list.badgesStatuses.list.progress'] != 100.0, 'moduleProgress'] = False
         # specificData.drop(['list.projects.list.users.list.badgesStatuses.list.progress'], axis=1, inplace=True)
         return specificData
 
     def getstudentProjectCounts(self, data, student):
-      df = data.copy()
-      df = df.loc[((df['list.projects.list.users.list.name'] == student))]
-      df = df.drop_duplicates(subset=['list.projects.list.name'])
+        df = data.copy()
+        df = df.loc[((df['list.projects.list.users.list.name'] == student))]
+        df = df.drop_duplicates(subset=['list.projects.list.name'])
 
-      studentBadgeCount = df["list.projects.list.users.list.stats.badges"].sum()
-      studentQuestsCount = df["list.projects.list.users.list.stats.quests"].sum()
-      studentCertificateCount = df["list.projects.list.users.list.stats.certificates"].sum()
-      
-      studentInfo = {"student.name": student, "student.badge": round(studentBadgeCount),"student.quest":round(studentQuestsCount),"student.certificate": round(studentCertificateCount)}
+        studentBadgeCount = df["list.projects.list.users.list.stats.badges"].sum()
+        studentQuestsCount = df["list.projects.list.users.list.stats.quests"].sum()
+        studentCertificateCount = df["list.projects.list.users.list.stats.certificates"].sum()
 
-      return studentInfo
+        studentInfo = {"student.name": student, "student.badge": round(studentBadgeCount),
+                       "student.quest": round(studentQuestsCount),
+                       "student.certificate": round(studentCertificateCount)}
+
+        return studentInfo
 
     def fetch(self, token=os.environ.get('TOKEN')):
         token = {"a": token}
@@ -210,17 +211,17 @@ class BadgeCraft:
             project_offset = i * self.QUERY_LIMIT
             for j in range(user_loop):
                 user_offset = j * self.QUERY_LIMIT
-                tup = self.not_proud_of_this(user_offset, project_offset)
+                tup = self.get_records(user_offset, project_offset)
                 query += tup[0]
                 aliases.append(tup[1])
 
         query += "}"
         request = requests.post(self.url, json={"query": query}, cookies=token)
-        tim = request.json()
-        del tim["errors"]
+        response = request.json()
+        del response["errors"]
         df = pd.DataFrame()
         for alias in aliases:
-            new_df = json_to_dataframe(tim["data"][alias])
+            new_df = json_to_dataframe(response["data"][alias])
             df = pd.concat([df, new_df])
 
         studentNames = df["list.projects.list.users.list.name"].unique()
