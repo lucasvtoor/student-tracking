@@ -29,6 +29,7 @@ const config = {
 
 const myChart = new Chart(document.getElementById("myChart"), config);
 
+// reset search and sort value after reset button click
 function resetSearch() {
   document.getElementById("search-input").value = "";
   document.getElementById("sort-form").submit();
