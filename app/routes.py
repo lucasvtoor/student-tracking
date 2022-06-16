@@ -286,16 +286,23 @@ def users():
     return render_template('students.html', protected=False, current_user=loggedInUser, students=pagination_users,
                            page=page, per_page=per_page, pagination=pagination, search_term=searchTerm)
 
+# returns the percentage and the amount of students that are done with the module
+def get_general_progression_per_level(df_input, current_level):
+    df_coderclass_progression = df_input[df_input['Module']=="Level " + str(current_level)]
+    progression_with_module = (df_coderclass_progression['Progress']== 100).sum()
+    total_rows = len(df_coderclass_progression.index)
+    average_progress =  (progression_with_module /  total_rows) * 100
+
+    return average_progress, progression_with_module
 
 # classes route
 @app.route('/classes')
 def classes():
-        # check if logged in
+     # check if logged in
     if not check_token(request.cookies.get('token')):
         return render_template('login.html', protected=True)
-    
     teamsDf = badgecraft.FETCHED_DATA
-    # rename colums
+    # renaming columns for easier use
     teamsDf = teamsDf.rename(
         columns={"list.projects.list.name": "Project names", "list.projects.list.users.list.team": "Teams",
                  "list.projects.list.users.list.name": "Names", "list.projects.list.users.list.email": "Emails",
@@ -309,79 +316,55 @@ def classes():
     teamsDf = teamsDf.drop(
         columns=['list.projects.list.users.list.badgesStatuses.list', 'list.projects.list.users.list.badgesStatuses'])
 
-    dfCoderclassProgressionLevel1 = teamsDf[teamsDf['Module'] == "Level 1"]
-    progressionWithModule = (dfCoderclassProgressionLevel1['Progress'] == 100).sum()
-    totalRows = len(dfCoderclassProgressionLevel1.index)
-    averageProgress = (progressionWithModule / totalRows) * 100
-
-    dfCoderclassProgressionLevel2 = teamsDf[teamsDf['Module'] == "Level 2"]
-    progressionWithModule2 = (dfCoderclassProgressionLevel2['Progress'] == 100).sum()
-    totalRows2 = len(dfCoderclassProgressionLevel2.index)
-    averageProgress2 = (progressionWithModule2 / totalRows2) * 100
-
-    dfCoderclassProgressionLevel3 = teamsDf[teamsDf['Module'] == "Level 3"]
-    progressionWithModule3 = (dfCoderclassProgressionLevel3['Progress'] == 100).sum()
-    totalRows3 = len(dfCoderclassProgressionLevel3.index)
-    averageProgress3 = (progressionWithModule3 / totalRows3) * 100
-
-    dfCoderclassProgressionLevel4 = teamsDf[teamsDf['Module'] == "Level 4"]
-    progressionWithModule4 = (dfCoderclassProgressionLevel4['Progress'] == 100).sum()
-    totalRows4 = len(dfCoderclassProgressionLevel4.index)
-    averageProgress4 = (progressionWithModule4 / totalRows4) * 100
-
-    dfCoderclassProgressionLevel5 = teamsDf[teamsDf['Module'] == "Level 5"]
-    progressionWithModule5 = (dfCoderclassProgressionLevel5['Progress'] == 100).sum()
-    totalRows5 = len(dfCoderclassProgressionLevel5.index)
-    averageProgress5 = (progressionWithModule5 / totalRows5) * 100
-
-    dfCoderclassProgressionLevel6 = teamsDf[teamsDf['Module'] == "Level 6"]
-    progressionWithModule6 = (dfCoderclassProgressionLevel6['Progress'] == 100).sum()
-    totalRows6 = len(dfCoderclassProgressionLevel6.index)
-    averageProgress6 = (progressionWithModule6 / totalRows6) * 100
-
+    # constant of max levels in the module
+    MAX_LEVEL = 6
+    vars = []
+    # storing progression in list of tuples
+    for i in range(MAX_LEVEL):
+        vars.append(get_general_progression_per_level(teamsDf, i+1))
+    
+    # splitting data into lists
+    average = [row[0] for row in vars]
+    students_done = [row[1] for row in vars]
+    
+    # data for the table
     classes = [
-        {
-            'name': 'Level 1',
-            'members': progressionWithModule
-        },
-        {
-            'name': 'Level 2',
-            'members': progressionWithModule2
-        },
-        {
-            'name': 'Level 3',
-            'members': progressionWithModule3
-        },
-        {
-            'name': 'Level 4',
-            'members': progressionWithModule4
-        },
-        {
-            'name': 'Level 5',
-            'members': progressionWithModule5
-        },
-        {
-            'name': 'Level 6',
-            'members': progressionWithModule6
-        },
-    ]
-
-    data = [
-        ("Level 1", averageProgress),
-        ("Level 2", averageProgress2),
-        ("Level 3", averageProgress3),
-        ("Level 4", averageProgress4),
-        ("Level 5", averageProgress5),
-        ("Level 6", averageProgress6),
-    ]
-
-    labels = [row[0] for row in data]
-    today = [row[1] for row in data]
-
-    loggedInUser = request.cookies.get("username")
+            {
+                'name': 'Level 1',
+                'members': students_done[0]
+            },
+            {
+                'name': 'Level 2',
+                'members': students_done[1]
+            },
+            {
+                'name': 'Level 3',
+                'members': students_done[2]
+            },
+            {
+                'name': 'Level 4',
+                'members': students_done[3]
+            },
+            {
+                'name': 'Level 5',
+                'members': students_done[4]
+            },
+            {
+                'name': 'Level 6',
+                'members': students_done[5]
+            },
+        ]
+    
+    vars_names = []
+    # extracting the names from dictionary and storing them in list
+    for x in range(len(classes)):
+      vars_names.append(classes[x]['name'])
+    
+    
     # render classes html template with necessary vars
-    return render_template('classes.html', classes=classes, labels=labels, today=today, protected=False,
-                           current_user=loggedInUser)
+    loggedInUser = request.cookies.get("username")
+    return render_template('classes.html', classes=classes, labels=vars_names, average=average, protected=False,
+                               current_user=loggedInUser)
 
 
 @app.route('/download_student_csv')
