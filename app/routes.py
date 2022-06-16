@@ -248,6 +248,14 @@ def users():
                            page=page, per_page=per_page, pagination=pagination, search_term=searchTerm)
 
 
+def get_general_progression_per_level(dfInput, currentLevel):
+    dfCoderclassProgression = dfInput[dfInput['Module']=="Level " + str(currentLevel)]
+    progressionWithModule = (dfCoderclassProgression['Progress']== 100).sum()
+    totalRows = len(dfCoderclassProgression.index)
+    averageProgress =  (progressionWithModule /  totalRows) * 100
+
+    return averageProgress, progressionWithModule
+
 # classes route
 @app.route('/classes')
 def classes():
@@ -267,78 +275,52 @@ def classes():
     teamsDf = teamsDf.drop(
         columns=['list.projects.list.users.list.badgesStatuses.list', 'list.projects.list.users.list.badgesStatuses'])
 
-    dfCoderclassProgressionLevel1 = teamsDf[teamsDf['Module'] == "Level 1"]
-    progressionWithModule = (dfCoderclassProgressionLevel1['Progress'] == 100).sum()
-    totalRows = len(dfCoderclassProgressionLevel1.index)
-    averageProgress = (progressionWithModule / totalRows) * 100
 
-    dfCoderclassProgressionLevel2 = teamsDf[teamsDf['Module'] == "Level 2"]
-    progressionWithModule2 = (dfCoderclassProgressionLevel2['Progress'] == 100).sum()
-    totalRows2 = len(dfCoderclassProgressionLevel2.index)
-    averageProgress2 = (progressionWithModule2 / totalRows2) * 100
-
-    dfCoderclassProgressionLevel3 = teamsDf[teamsDf['Module'] == "Level 3"]
-    progressionWithModule3 = (dfCoderclassProgressionLevel3['Progress'] == 100).sum()
-    totalRows3 = len(dfCoderclassProgressionLevel3.index)
-    averageProgress3 = (progressionWithModule3 / totalRows3) * 100
-
-    dfCoderclassProgressionLevel4 = teamsDf[teamsDf['Module'] == "Level 4"]
-    progressionWithModule4 = (dfCoderclassProgressionLevel4['Progress'] == 100).sum()
-    totalRows4 = len(dfCoderclassProgressionLevel4.index)
-    averageProgress4 = (progressionWithModule4 / totalRows4) * 100
-
-    dfCoderclassProgressionLevel5 = teamsDf[teamsDf['Module'] == "Level 5"]
-    progressionWithModule5 = (dfCoderclassProgressionLevel5['Progress'] == 100).sum()
-    totalRows5 = len(dfCoderclassProgressionLevel5.index)
-    averageProgress5 = (progressionWithModule5 / totalRows5) * 100
-
-    dfCoderclassProgressionLevel6 = teamsDf[teamsDf['Module'] == "Level 6"]
-    progressionWithModule6 = (dfCoderclassProgressionLevel6['Progress'] == 100).sum()
-    totalRows6 = len(dfCoderclassProgressionLevel6.index)
-    averageProgress6 = (progressionWithModule6 / totalRows6) * 100
-
+    MAX_LEVEL = 6
+    vars = []
+    for i in range(MAX_LEVEL):
+        vars.append(get_general_progression_per_level(teamsDf, i+1))
+    
+    average = [row[0] for row in vars]
+    studentsDone = [row[1] for row in vars]
+    
+    
     classes = [
-        {
-            'name': 'Level 1',
-            'members': progressionWithModule
-        },
-        {
-            'name': 'Level 2',
-            'members': progressionWithModule2
-        },
-        {
-            'name': 'Level 3',
-            'members': progressionWithModule3
-        },
-        {
-            'name': 'Level 4',
-            'members': progressionWithModule4
-        },
-        {
-            'name': 'Level 5',
-            'members': progressionWithModule5
-        },
-        {
-            'name': 'Level 6',
-            'members': progressionWithModule6
-        },
-    ]
-
-    data = [
-        ("Level 1", averageProgress),
-        ("Level 2", averageProgress2),
-        ("Level 3", averageProgress3),
-        ("Level 4", averageProgress4),
-        ("Level 5", averageProgress5),
-        ("Level 6", averageProgress6),
-    ]
-
-    labels = [row[0] for row in data]
-    today = [row[1] for row in data]
-
+            {
+                'name': 'Level 1',
+                'members': studentsDone[0]
+            },
+            {
+                'name': 'Level 2',
+                'members': studentsDone[1]
+            },
+            {
+                'name': 'Level 3',
+                'members': studentsDone[2]
+            },
+            {
+                'name': 'Level 4',
+                'members': studentsDone[3]
+            },
+            {
+                'name': 'Level 5',
+                'members': studentsDone[4]
+            },
+            {
+                'name': 'Level 6',
+                'members': studentsDone[5]
+            },
+        ]
+    
+    varsNames = []
+    for x in range(len(classes)):
+      varsNames.append(classes[x]['name'])
+    
+    
+    
     loggedInUser = request.cookies.get("username")
-    return render_template('classes.html', classes=classes, labels=labels, today=today, protected=False,
-                           current_user=loggedInUser)
+    return render_template('classes.html', classes=classes, labels=varsNames, average=average, protected=False,
+                               current_user=loggedInUser)
 
 
 @app.route('/download_student_csv')
