@@ -248,13 +248,13 @@ def users():
                            page=page, per_page=per_page, pagination=pagination, search_term=searchTerm)
 
 
-def get_general_progression_per_level(dfInput, currentLevel):
-    dfCoderclassProgression = dfInput[dfInput['Module']=="Level " + str(currentLevel)]
-    progressionWithModule = (dfCoderclassProgression['Progress']== 100).sum()
-    totalRows = len(dfCoderclassProgression.index)
-    averageProgress =  (progressionWithModule /  totalRows) * 100
+def get_general_progression_per_level(df_input, current_level):
+    df_coderclass_progression = df_input[df_input['Module']=="Level " + str(current_level)]
+    progression_with_module = (df_coderclass_progression['Progress']== 100).sum()
+    total_rows = len(df_coderclass_progression.index)
+    average_progress =  (progression_with_module /  total_rows) * 100
 
-    return averageProgress, progressionWithModule
+    return average_progress, progression_with_module
 
 # classes route
 @app.route('/classes')
@@ -282,44 +282,44 @@ def classes():
         vars.append(get_general_progression_per_level(teamsDf, i+1))
     
     average = [row[0] for row in vars]
-    studentsDone = [row[1] for row in vars]
+    students_done = [row[1] for row in vars]
     
     
     classes = [
             {
                 'name': 'Level 1',
-                'members': studentsDone[0]
+                'members': students_done[0]
             },
             {
                 'name': 'Level 2',
-                'members': studentsDone[1]
+                'members': students_done[1]
             },
             {
                 'name': 'Level 3',
-                'members': studentsDone[2]
+                'members': students_done[2]
             },
             {
                 'name': 'Level 4',
-                'members': studentsDone[3]
+                'members': students_done[3]
             },
             {
                 'name': 'Level 5',
-                'members': studentsDone[4]
+                'members': students_done[4]
             },
             {
                 'name': 'Level 6',
-                'members': studentsDone[5]
+                'members': students_done[5]
             },
         ]
     
-    varsNames = []
+    vars_names = []
     for x in range(len(classes)):
-      varsNames.append(classes[x]['name'])
+      vars_names.append(classes[x]['name'])
     
     
     
     loggedInUser = request.cookies.get("username")
-    return render_template('classes.html', classes=classes, labels=varsNames, average=average, protected=False,
+    return render_template('classes.html', classes=classes, labels=vars_names, average=average, protected=False,
                                current_user=loggedInUser)
 
 
