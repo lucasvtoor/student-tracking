@@ -41,7 +41,7 @@ if [ -n "$(command -v apt-get)" ]; then
   pip install requests
 
   log_output LOG_TYPE_INFO "Generating token and placing it in environmental variable"
-  export LUCAS=$(python3 willem.py)
+  export TOKEN=$(python3 willem.py)
 
   pip install -r requirements.txt
 
