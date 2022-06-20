@@ -45,5 +45,5 @@ if [ -n "$(command -v apt-get)" ]; then
 
   pip install -r requirements.txt
 
-  gunicorn --bind 0.0.0.0:5000 wsgi:app
+  gunicorn --bind 0.0.0.0:5000 wsgi:app --log-level debug --timeout 90
 fi
