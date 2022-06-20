@@ -9,7 +9,7 @@ $(document).ready(function () {
     name = name.replace("%20", "");
     name = name.replace(" ", "");
     // redirect app to detail page with selected student info
-    window.location.replace("http://127.0.0.1:5000/detail/" + name);
+    window.location.replace(window.location.origin+"/detail/" + name);
   });
 });
 
